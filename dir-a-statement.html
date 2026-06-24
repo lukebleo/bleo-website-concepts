@@ -1,0 +1,1567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bleo - Stories that move people. Strategies that move markets.</title>
+<meta name="description" content="Bleo is a high-end creative growth partner. We connect strategic marketing with captivating creative production to grow brands ready to look, feel and perform at a higher level." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --stories: #060606;
+    --strategies: #fdfeff;
+    --grey: #c3cad3;
+    --display: "Recent Grotesk", "Anton", sans-serif;
+    --body: "Inter", sans-serif;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --gutter: clamp(20px, 5vw, 80px);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+
+  body {
+    background: var(--stories);
+    color: var(--strategies);
+    font-family: var(--body);
+    font-weight: 300;
+    line-height: 1.5;
+    overflow-x: hidden;
+    letter-spacing: 0.01em;
+  }
+
+  ::selection { background: var(--strategies); color: var(--stories); }
+
+  a { color: inherit; text-decoration: none; }
+
+  img { display: block; max-width: 100%; }
+
+  /* ---------- shared type ---------- */
+  .display {
+    font-family: var(--display);
+    font-weight: 400;
+    text-transform: uppercase;
+    line-height: 0.86;
+    letter-spacing: -0.02em;
+  }
+
+  .eyebrow {
+    font-family: var(--body);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    font-size: 0.7rem;
+    color: var(--grey);
+  }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-family: var(--body);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.24em;
+    font-size: 0.68rem;
+    color: var(--grey);
+  }
+  .section-label::before {
+    content: "";
+    width: 28px;
+    height: 1px;
+    background: var(--grey);
+    opacity: 0.6;
+  }
+
+  /* ---------- hairline that draws in on scroll ---------- */
+  .hairline {
+    height: 1px;
+    width: 100%;
+    background: rgba(195, 202, 211, 0.22);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 1.4s var(--ease);
+  }
+  .hairline.in { transform: scaleX(1); }
+
+  /* ---------- page load reveal primitives ---------- */
+  .reveal-mask { overflow: hidden; display: block; }
+  .reveal-line {
+    display: block;
+    transform: translateY(110%);
+    will-change: transform;
+  }
+  .loaded .reveal-line {
+    transform: translateY(0);
+    transition: transform 1.1s var(--ease);
+  }
+
+  .fade-up {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 1s var(--ease), transform 1s var(--ease);
+  }
+  .fade-up.in { opacity: 1; transform: translateY(0); }
+
+  .clip-img {
+    clip-path: inset(0 0 100% 0);
+    transition: clip-path 1.3s var(--ease);
+  }
+  .clip-img.in { clip-path: inset(0 0 0 0); }
+
+  /* ============================================================
+     NAV
+  ============================================================ */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px var(--gutter);
+    mix-blend-mode: difference;
+    color: #fff;
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    transform: translateY(-12px);
+    transition: opacity 0.9s var(--ease) 0.2s, transform 0.9s var(--ease) 0.2s;
+  }
+  .loaded .nav-brand { opacity: 1; transform: translateY(0); }
+  .nav-brand svg { width: 40px; height: auto; }
+  .nav-brand .wordmark {
+    font-family: var(--display);
+    font-size: 1.5rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 38px;
+    opacity: 0;
+    transition: opacity 0.9s var(--ease) 0.45s;
+  }
+  .loaded .nav-links { opacity: 1; }
+  .nav-links a {
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    position: relative;
+  }
+  .nav-links a.text-link::after {
+    content: "";
+    position: absolute;
+    left: 0; bottom: -5px;
+    width: 100%; height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right center;
+    transition: transform 0.5s var(--ease);
+  }
+  .nav-links a.text-link:hover::after { transform: scaleX(1); transform-origin: left center; }
+
+  .nav-cta {
+    border: 1px solid currentColor;
+    padding: 11px 22px;
+    border-radius: 100px;
+    font-size: 0.74rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: background 0.45s var(--ease), color 0.45s var(--ease), padding 0.45s var(--ease);
+  }
+  .nav-cta:hover { background: #fff; color: #000; }
+
+  .nav-menu-toggle { display: none; }
+
+  /* ============================================================
+     HERO  -  type led, no bg photo
+  ============================================================ */
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 130px var(--gutter) 0;
+    overflow: hidden;
+  }
+
+  /* giant faint eye-logo behind type */
+  .hero-eye {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: min(120vw, 1500px);
+    transform: translate(-50%, -54%);
+    color: #fff;
+    opacity: 0;
+    z-index: 0;
+    pointer-events: none;
+    transition: opacity 2.4s var(--ease) 0.3s;
+  }
+  .loaded .hero-eye { opacity: 0.045; }
+  .hero-eye svg { width: 100%; height: auto; }
+
+  .hero-top {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .hero-eyebrow {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.9s var(--ease) 0.35s, transform 0.9s var(--ease) 0.35s;
+  }
+  .loaded .hero-eyebrow { opacity: 1; transform: translateY(0); }
+
+  .hero-essence {
+    max-width: 340px;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--grey);
+    text-align: right;
+    opacity: 0;
+    transition: opacity 1.1s var(--ease) 1.1s;
+  }
+  .loaded .hero-essence { opacity: 1; }
+
+  .hero-headline {
+    position: relative;
+    z-index: 2;
+    margin: clamp(40px, 7vh, 90px) 0 auto;
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+  .hero-headline h1 {
+    font-size: clamp(3.1rem, 12.5vw, 16rem);
+  }
+  .hero-headline .l-light { color: var(--grey); }
+  .hero-headline .reveal-line { transition-delay: 0.45s; }
+  .hero-headline .ln2 .reveal-line { transition-delay: 0.58s; }
+  .hero-headline .ln3 .reveal-line { transition-delay: 0.71s; }
+  .hero-headline .ln4 .reveal-line { transition-delay: 0.84s; }
+
+  /* thin strip of 3 stills at the very bottom of the hero */
+  .hero-strip {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 48px;
+    border-top: 1px solid rgba(195, 202, 211, 0.18);
+    padding-top: 24px;
+    padding-bottom: 26px;
+  }
+  .hero-strip figure {
+    position: relative;
+    height: clamp(78px, 11vh, 124px);
+    overflow: hidden;
+  }
+  .hero-strip img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: grayscale(0.32) contrast(1.05) brightness(0.78);
+    transition: transform 1.2s var(--ease), filter 0.7s var(--ease);
+  }
+  .loaded .hero-strip figure:nth-child(1) img { transition-delay: 0.05s; }
+  .hero-strip figure:hover img { transform: scale(1.06); filter: grayscale(0) contrast(1.05) brightness(0.95); }
+  .hero-strip figcaption {
+    position: absolute;
+    left: 12px; bottom: 10px;
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #fff;
+    mix-blend-mode: difference;
+  }
+
+  .scroll-cue {
+    position: absolute;
+    bottom: 26px;
+    right: var(--gutter);
+    z-index: 3;
+    font-size: 0.6rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--grey);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    transition: opacity 1s var(--ease) 1.4s;
+  }
+  .loaded .scroll-cue { opacity: 0.8; }
+  .scroll-cue .bar {
+    display: block; width: 1px; height: 40px;
+    background: var(--grey);
+    position: relative; overflow: hidden;
+  }
+  .scroll-cue .bar::after {
+    content: ""; position: absolute; inset: 0;
+    background: #fff;
+    animation: scrollPulse 2.4s var(--ease) infinite;
+  }
+  @keyframes scrollPulse {
+    0% { transform: translateY(-100%); }
+    50% { transform: translateY(0); }
+    100% { transform: translateY(100%); }
+  }
+
+  /* ============================================================
+     MARQUEE  -  client logos
+  ============================================================ */
+  .clients {
+    padding: 40px 0;
+    border-top: 1px solid rgba(195, 202, 211, 0.16);
+    border-bottom: 1px solid rgba(195, 202, 211, 0.16);
+    overflow: hidden;
+  }
+  .clients-head {
+    text-align: center;
+    margin-bottom: 34px;
+    padding: 0 var(--gutter);
+  }
+  .clients-head .section-label { justify-content: center; }
+  .clients-head .section-label::before { display: none; }
+  .marquee {
+    display: flex;
+    width: max-content;
+    animation: marquee 46s linear infinite;
+  }
+  .marquee:hover { animation-play-state: paused; }
+  .marquee-group {
+    display: flex;
+    align-items: center;
+    gap: clamp(48px, 6vw, 96px);
+    padding-right: clamp(48px, 6vw, 96px);
+  }
+  .marquee img {
+    height: 46px;
+    width: auto;
+    object-fit: contain;
+    opacity: 0.5;
+    filter: grayscale(1) brightness(1.6);
+    transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+  }
+  .marquee img:hover { opacity: 1; transform: scale(1.08); }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ============================================================
+     SUPPORTING LINE TRANSITIONS
+  ============================================================ */
+  .transition-line {
+    padding: clamp(90px, 16vh, 180px) var(--gutter);
+    text-align: center;
+  }
+  .transition-line p {
+    font-family: var(--display);
+    text-transform: uppercase;
+    font-size: clamp(2rem, 6.5vw, 6rem);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+  }
+  .transition-line .accent { color: var(--grey); }
+
+  /* ============================================================
+     SELECTED WORK  -  editorial asymmetric grid
+  ============================================================ */
+  .work {
+    padding: clamp(60px, 9vh, 120px) var(--gutter) clamp(40px, 6vh, 80px);
+  }
+  .work-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 30px;
+    margin-bottom: clamp(50px, 8vh, 100px);
+    flex-wrap: wrap;
+  }
+  .work-head h2 {
+    font-size: clamp(2.4rem, 6vw, 5.5rem);
+  }
+  .work-head .work-intro {
+    max-width: 360px;
+    color: var(--grey);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: clamp(40px, 5vw, 80px) clamp(24px, 3vw, 50px);
+  }
+
+  .project { position: relative; }
+  .project a { display: block; }
+
+  .project-figure {
+    position: relative;
+    overflow: hidden;
+    background: #111;
+  }
+  .project-figure img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(0.32) contrast(1.05) brightness(0.78);
+    transition: transform 1.1s var(--ease), filter 0.7s var(--ease);
+  }
+  .project a:hover .project-figure img {
+    transform: scale(1.05);
+    filter: grayscale(0) contrast(1.05) brightness(0.92);
+  }
+
+  /* big display index number */
+  .project-index {
+    font-family: var(--display);
+    font-size: clamp(2.6rem, 5vw, 5rem);
+    line-height: 0.8;
+    color: var(--strategies);
+    letter-spacing: -0.02em;
+  }
+  .project-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    margin-top: 20px;
+  }
+  .project-titles { flex: 1; }
+  .project-title {
+    font-family: var(--display);
+    font-size: clamp(1.4rem, 2.4vw, 2.3rem);
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 0.95;
+    transition: opacity 0.4s var(--ease);
+  }
+  .project-cat {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-top: 9px;
+  }
+  .project-arrow {
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--grey);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+    white-space: nowrap;
+  }
+  .project a:hover .project-arrow { opacity: 1; transform: translateX(0); }
+
+  /* asymmetric placement */
+  .p-01 { grid-column: 1 / 8; }
+  .p-01 .project-figure { aspect-ratio: 16 / 10; }
+  .p-02 { grid-column: 9 / 13; align-self: end; }
+  .p-02 .project-figure { aspect-ratio: 3 / 4; }
+  .p-03 { grid-column: 1 / 5; }
+  .p-03 .project-figure { aspect-ratio: 4 / 5; }
+  .p-04 { grid-column: 6 / 13; align-self: center; }
+  .p-04 .project-figure { aspect-ratio: 16 / 9; }
+  .p-05 { grid-column: 1 / 7; }
+  .p-05 .project-figure { aspect-ratio: 5 / 4; }
+  .p-06 { grid-column: 8 / 13; align-self: end; }
+  .p-06 .project-figure { aspect-ratio: 4 / 5; }
+
+  /* small grid tiles (burnt-in text) */
+  .work-tiles {
+    grid-column: 1 / 13;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(24px, 3vw, 50px);
+    margin-top: clamp(20px, 3vh, 40px);
+  }
+  .tile .project-figure { aspect-ratio: 16 / 9; }
+  .tile .project-title { font-size: clamp(1.1rem, 1.8vw, 1.6rem); }
+
+  /* ============================================================
+     STRATEGIES  -  the one off-white section (order of service)
+  ============================================================ */
+  .strategies {
+    background: var(--strategies);
+    color: var(--stories);
+    padding: clamp(80px, 13vh, 170px) var(--gutter);
+  }
+  .strategies ::selection { background: var(--stories); color: var(--strategies); }
+  .strategies .section-label { color: #555; }
+  .strategies .section-label::before { background: #555; }
+
+  .strat-head {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: end;
+    margin-bottom: clamp(50px, 8vh, 90px);
+  }
+  .strat-head h2 {
+    font-size: clamp(2.5rem, 6vw, 6rem);
+  }
+  .strat-head .strat-pillar {
+    font-size: 1.02rem;
+    line-height: 1.6;
+    color: #222;
+    max-width: 440px;
+    justify-self: end;
+  }
+  .strat-head .strat-pillar strong { font-weight: 600; }
+
+  .strat-belief {
+    font-family: var(--display);
+    text-transform: uppercase;
+    font-size: clamp(1.4rem, 3vw, 2.9rem);
+    line-height: 1.02;
+    letter-spacing: -0.015em;
+    max-width: 17ch;
+    margin-bottom: clamp(50px, 8vh, 90px);
+    color: #000;
+  }
+  .strat-belief .muted { color: #b7bdc6; }
+
+  .order-list {
+    border-top: 1px solid rgba(6, 6, 6, 0.14);
+  }
+  .order-item {
+    display: grid;
+    grid-template-columns: 110px 1fr auto;
+    gap: 28px;
+    align-items: center;
+    padding: clamp(26px, 4vh, 44px) 0;
+    border-bottom: 1px solid rgba(6, 6, 6, 0.14);
+    position: relative;
+    transition: padding-left 0.5s var(--ease);
+  }
+  .order-num {
+    font-family: var(--display);
+    font-size: clamp(1.6rem, 3vw, 2.6rem);
+    color: #060606;
+    line-height: 0.9;
+  }
+  .order-name {
+    font-family: var(--display);
+    text-transform: uppercase;
+    font-size: clamp(1.7rem, 4.5vw, 4rem);
+    line-height: 0.92;
+    letter-spacing: -0.015em;
+    transition: transform 0.5s var(--ease);
+  }
+  .order-desc {
+    text-align: right;
+    max-width: 280px;
+    font-size: 0.86rem;
+    line-height: 1.5;
+    color: #555;
+    justify-self: end;
+  }
+  .order-item:hover { padding-left: 18px; }
+  .order-item:hover .order-name { transform: translateX(6px); }
+  .order-item::before {
+    content: "";
+    position: absolute;
+    left: -18px; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--stories);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.5s var(--ease);
+  }
+  .order-item:hover::before { transform: scaleY(1); }
+
+  /* ============================================================
+     DIFFERENCE  +  AI-forward
+  ============================================================ */
+  .difference {
+    padding: clamp(80px, 13vh, 170px) var(--gutter);
+  }
+  .diff-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(40px, 6vw, 110px);
+    align-items: start;
+  }
+  .diff-left h2 {
+    font-size: clamp(2.4rem, 5.5vw, 5rem);
+    margin-bottom: 30px;
+  }
+  .diff-left p {
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: var(--grey);
+    max-width: 38ch;
+  }
+  .diff-cards {
+    display: flex;
+    flex-direction: column;
+  }
+  .diff-card {
+    padding: 32px 0;
+    border-top: 1px solid rgba(195, 202, 211, 0.18);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 26px;
+    align-items: start;
+  }
+  .diff-card:last-child { border-bottom: 1px solid rgba(195, 202, 211, 0.18); }
+  .diff-card .dc-num {
+    font-family: var(--display);
+    font-size: 1.1rem;
+    color: var(--grey);
+  }
+  .diff-card h3 {
+    font-family: var(--display);
+    text-transform: uppercase;
+    font-size: clamp(1.3rem, 2.2vw, 1.9rem);
+    line-height: 1;
+    letter-spacing: -0.01em;
+    margin-bottom: 12px;
+  }
+  .diff-card p {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--grey);
+  }
+  .diff-card .ai-tag {
+    display: inline-block;
+    margin-top: 14px;
+    font-size: 0.64rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    border: 1px solid rgba(195, 202, 211, 0.4);
+    border-radius: 100px;
+    padding: 6px 14px;
+    color: var(--grey);
+  }
+
+  /* ============================================================
+     TRANSFORMATION  -  before / after
+  ============================================================ */
+  .transform {
+    padding: clamp(70px, 11vh, 150px) var(--gutter);
+  }
+  .transform-head {
+    text-align: center;
+    margin-bottom: clamp(50px, 8vh, 90px);
+  }
+  .transform-head h2 {
+    font-size: clamp(2.6rem, 7vw, 7rem);
+  }
+  .transform-head h2 .arrow { color: var(--grey); display: inline-block; margin: 0 0.1em; }
+
+  .ba-grid {
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr;
+    gap: 0 clamp(40px, 6vw, 90px);
+    align-items: stretch;
+  }
+  .ba-divider { background: rgba(195, 202, 211, 0.22); }
+  .ba-col .ba-tag {
+    font-family: var(--display);
+    text-transform: uppercase;
+    font-size: clamp(1.4rem, 3vw, 2.4rem);
+    letter-spacing: -0.01em;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .ba-before .ba-tag { color: var(--grey); }
+  .ba-before .ba-tag::before { content: "—"; }
+  .ba-after .ba-tag::before { content: "+"; }
+  .ba-list { list-style: none; }
+  .ba-list li {
+    padding: 18px 0;
+    border-top: 1px solid rgba(195, 202, 211, 0.16);
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .ba-before .ba-list li { color: var(--grey); }
+  .ba-before .ba-list li .dot { width: 5px; height: 5px; border: 1px solid var(--grey); border-radius: 50%; flex-shrink: 0; }
+  .ba-after .ba-list li { color: var(--strategies); }
+  .ba-after .ba-list li .dot { width: 5px; height: 5px; background: var(--strategies); border-radius: 50%; flex-shrink: 0; }
+
+  /* ============================================================
+     SHOWREEL  -  click to play
+  ============================================================ */
+  .showreel { padding: 0 var(--gutter) clamp(70px, 11vh, 150px); }
+  .reel-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .reel-head h2 { font-size: clamp(2rem, 4.5vw, 4rem); }
+  .reel-head .reel-sub { color: var(--grey); font-size: 0.9rem; max-width: 30ch; }
+
+  .reel-frame {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: #000;
+    cursor: pointer;
+  }
+  .reel-frame img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: grayscale(0.32) contrast(1.05) brightness(0.62);
+    transition: transform 1.4s var(--ease), filter 0.7s var(--ease);
+  }
+  .reel-frame:hover img { transform: scale(1.04); filter: grayscale(0.1) contrast(1.05) brightness(0.74); }
+  .reel-play {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    z-index: 2;
+  }
+  .reel-play .ring {
+    width: clamp(76px, 9vw, 118px);
+    height: clamp(76px, 9vw, 118px);
+    border: 1px solid rgba(255,255,255,0.7);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.5s var(--ease), transform 0.5s var(--ease);
+    backdrop-filter: blur(2px);
+  }
+  .reel-frame:hover .ring { background: var(--strategies); transform: scale(1.06); }
+  .reel-play .ring svg { width: 26px; height: 26px; margin-left: 4px; color: #fff; transition: color 0.5s var(--ease); }
+  .reel-frame:hover .ring svg { color: #000; }
+  .reel-play .reel-label {
+    font-family: var(--display);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: clamp(1rem, 2vw, 1.6rem);
+    color: #fff;
+  }
+  .reel-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+  /* ============================================================
+     TESTIMONIAL
+  ============================================================ */
+  .testimonial {
+    padding: clamp(90px, 15vh, 190px) var(--gutter);
+    border-top: 1px solid rgba(195, 202, 211, 0.14);
+    border-bottom: 1px solid rgba(195, 202, 211, 0.14);
+    text-align: center;
+  }
+  .testimonial blockquote {
+    font-family: var(--display);
+    text-transform: uppercase;
+    font-size: clamp(1.7rem, 4.4vw, 4.4rem);
+    line-height: 1.02;
+    letter-spacing: -0.015em;
+    max-width: 18ch;
+    margin: 0 auto 40px;
+  }
+  .testimonial blockquote .muted { color: var(--grey); }
+  .testimonial .attribution {
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--grey);
+  }
+  .testimonial .attribution strong { color: var(--strategies); font-weight: 500; }
+
+  /* ============================================================
+     STUDIOS
+  ============================================================ */
+  .studios { padding: clamp(80px, 13vh, 170px) var(--gutter); }
+  .studios-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: clamp(40px, 6vh, 70px);
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .studios-head h2 { font-size: clamp(2.4rem, 6vw, 5.5rem); }
+  .studios-head .studios-sub { color: var(--grey); font-size: 0.9rem; }
+
+  .studios-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid rgba(195, 202, 211, 0.18);
+  }
+  .studio {
+    padding: clamp(34px, 5vh, 54px) clamp(20px, 2.5vw, 40px) clamp(34px, 5vh, 54px) 0;
+    border-right: 1px solid rgba(195, 202, 211, 0.18);
+    position: relative;
+  }
+  .studio:last-child { border-right: 0; }
+  .studio .studio-no {
+    font-size: 0.66rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 22px;
+  }
+  .studio h3 {
+    font-family: var(--display);
+    text-transform: uppercase;
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    margin-bottom: 18px;
+  }
+  .studio address {
+    font-style: normal;
+    color: var(--grey);
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+  .studio address a { transition: color 0.4s var(--ease); }
+  .studio address a:hover { color: var(--strategies); }
+  .studio .studio-phone { margin-top: 10px; display: inline-block; }
+
+  /* ============================================================
+     CONTACT CTA
+  ============================================================ */
+  .contact {
+    padding: clamp(90px, 16vh, 210px) var(--gutter);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-eye {
+    position: absolute;
+    bottom: -40%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(150vw, 1700px);
+    color: #fff;
+    opacity: 0.04;
+    pointer-events: none;
+  }
+  .contact .eyebrow { margin-bottom: 30px; }
+  .contact h2 {
+    font-size: clamp(2.8rem, 11vw, 13rem);
+    margin-bottom: 50px;
+    position: relative;
+    z-index: 2;
+  }
+  .contact-cta-row {
+    display: flex;
+    gap: 18px;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 2;
+    margin-bottom: 60px;
+  }
+  .btn-primary, .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 34px;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: transform 0.45s var(--ease), background 0.45s var(--ease), color 0.45s var(--ease);
+  }
+  .btn-primary { background: var(--strategies); color: var(--stories); }
+  .btn-primary:hover { transform: translateY(-3px); }
+  .btn-primary svg { width: 16px; height: 16px; transition: transform 0.45s var(--ease); }
+  .btn-primary:hover svg { transform: translate(3px, -3px); }
+  .btn-ghost { border: 1px solid rgba(195, 202, 211, 0.4); color: var(--strategies); }
+  .btn-ghost:hover { background: rgba(255,255,255,0.06); transform: translateY(-3px); }
+
+  .contact-details {
+    display: flex;
+    gap: clamp(24px, 5vw, 70px);
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 2;
+    color: var(--grey);
+    font-size: 0.88rem;
+    letter-spacing: 0.04em;
+  }
+  .contact-details a { transition: color 0.4s var(--ease); }
+  .contact-details a:hover { color: var(--strategies); }
+
+  /* ============================================================
+     FOOTER
+  ============================================================ */
+  footer {
+    padding: clamp(50px, 7vh, 80px) var(--gutter) 36px;
+    border-top: 1px solid rgba(195, 202, 211, 0.16);
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: clamp(50px, 8vh, 90px);
+  }
+  .footer-brand .wordmark-img { width: 120px; margin-bottom: 22px; }
+  .footer-brand p {
+    color: var(--grey);
+    font-size: 0.92rem;
+    line-height: 1.6;
+    max-width: 34ch;
+  }
+  .footer-col h4 {
+    font-size: 0.66rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 22px;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 13px; }
+  .footer-col a {
+    font-size: 0.92rem;
+    position: relative;
+    transition: color 0.4s var(--ease);
+  }
+  .footer-col a:hover { color: var(--grey); }
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 18px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(195, 202, 211, 0.12);
+  }
+  .footer-bottom .copy { font-size: 0.76rem; color: var(--grey); letter-spacing: 0.04em; }
+  .footer-tagline {
+    font-family: var(--display);
+    text-transform: uppercase;
+    font-size: 0.92rem;
+    letter-spacing: 0.02em;
+    color: var(--grey);
+  }
+
+  /* ============================================================
+     RESPONSIVE
+  ============================================================ */
+  @media (max-width: 1024px) {
+    .strat-head { grid-template-columns: 1fr; gap: 24px; }
+    .strat-head .strat-pillar { justify-self: start; }
+    .diff-grid { grid-template-columns: 1fr; gap: 48px; }
+    .order-item { grid-template-columns: 70px 1fr; }
+    .order-desc { display: none; }
+  }
+
+  @media (max-width: 760px) {
+    .nav { padding: 18px var(--gutter); }
+    .nav-links { gap: 18px; }
+    .nav-links a.text-link { display: none; }
+    .hero-essence { display: none; }
+    .hero { padding-top: 110px; }
+    .hero-strip { grid-template-columns: 1fr; gap: 2px; }
+    .hero-strip figure:nth-child(n+2) { display: none; }
+    .scroll-cue { display: none; }
+
+    .work-grid { display: flex; flex-direction: column; gap: 56px; }
+    .work-tiles { grid-template-columns: 1fr; }
+    .project-figure { aspect-ratio: 4 / 3 !important; }
+
+    .strat-head h2 { font-size: clamp(2.4rem, 11vw, 3.4rem); }
+    .order-item { grid-template-columns: 54px 1fr; gap: 16px; }
+
+    .ba-grid { grid-template-columns: 1fr; gap: 50px; }
+    .ba-divider { display: none; }
+
+    .studios-grid { grid-template-columns: 1fr; }
+    .studio { border-right: 0; border-bottom: 1px solid rgba(195, 202, 211, 0.18); padding-right: 0; }
+
+    .footer-top { grid-template-columns: 1fr; gap: 38px; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
+    .reel-head, .work-head, .studios-head { flex-direction: column; align-items: flex-start; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+    .reveal-line { transform: none !important; }
+    .clip-img { clip-path: inset(0 0 0 0) !important; }
+    .fade-up { opacity: 1 !important; transform: none !important; }
+    .hairline { transform: scaleX(1) !important; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ===================== NAV ===================== -->
+  <nav class="nav">
+    <a href="#top" class="nav-brand" aria-label="Bleo home">
+      <svg viewBox="0 0 120 90" aria-hidden="true">
+        <ellipse cx="60" cy="34" rx="54" ry="22" fill="none" stroke="currentColor" stroke-width="7"/>
+        <ellipse cx="60" cy="56" rx="54" ry="22" fill="none" stroke="currentColor" stroke-width="7"/>
+        <ellipse cx="60" cy="45" rx="22" ry="6.5" fill="currentColor"/>
+      </svg>
+      <span class="wordmark">Bleo</span>
+    </a>
+    <div class="nav-links">
+      <a href="#work" class="text-link">Work</a>
+      <a href="#approach" class="text-link">Approach</a>
+      <a href="#studios" class="text-link">Studios</a>
+      <a href="#contact" class="nav-cta">Start a project</a>
+    </div>
+  </nav>
+
+  <!-- ===================== HERO ===================== -->
+  <header class="hero" id="top">
+    <div class="hero-eye" aria-hidden="true">
+      <svg viewBox="0 0 120 90">
+        <ellipse cx="60" cy="34" rx="54" ry="22" fill="none" stroke="currentColor" stroke-width="3"/>
+        <ellipse cx="60" cy="56" rx="54" ry="22" fill="none" stroke="currentColor" stroke-width="3"/>
+        <ellipse cx="60" cy="45" rx="22" ry="6.5" fill="currentColor"/>
+      </svg>
+    </div>
+
+    <div class="hero-top">
+      <span class="eyebrow hero-eyebrow">Integrated Creative Agency - Est. 2011</span>
+      <p class="hero-essence">A high-end creative growth partner. We connect strategic marketing with captivating creative production to grow brands ready to look, feel and perform at a higher level.</p>
+    </div>
+
+    <div class="hero-headline">
+      <h1 class="display">
+        <span class="reveal-mask ln1"><span class="reveal-line">Stories that</span></span>
+        <span class="reveal-mask ln2"><span class="reveal-line">move people.</span></span>
+        <span class="reveal-mask ln3"><span class="reveal-line l-light">Strategies that</span></span>
+        <span class="reveal-mask ln4"><span class="reveal-line l-light">move markets.</span></span>
+      </h1>
+    </div>
+
+    <div class="hero-strip">
+      <figure>
+        <img src="https://bleomedia.com.au/wp-content/uploads/2023/08/bleo___dreamworld_-_event_showcase_video-1440p.00_00_00_00.Still0012.jpg" alt="Dreamworld event showcase still" loading="eager" />
+        <figcaption>Dreamworld</figcaption>
+      </figure>
+      <figure>
+        <img src="https://bleomedia.com.au/wp-content/uploads/2023/08/bleo___pembroke_-_showcase_video-1440p.00_00_02_16.Still001.jpg" alt="Pembroke brand story still" loading="eager" />
+        <figcaption>Pembroke</figcaption>
+      </figure>
+      <figure>
+        <img src="https://bleomedia.com.au/wp-content/uploads/2021/08/bleo___hyber_nation_-_product_video-1440p.00_00_27_17.Still001.jpg" alt="Hyber Nation product film still" loading="eager" />
+        <figcaption>Hyber Nation</figcaption>
+      </figure>
+    </div>
+
+    <div class="scroll-cue">
+      <span>Scroll</span>
+      <span class="bar"></span>
+    </div>
+  </header>
+
+  <!-- ===================== CLIENTS MARQUEE ===================== -->
+  <section class="clients" aria-label="Selected clients">
+    <div class="clients-head">
+      <span class="section-label">Trusted by brands that demand more</span>
+    </div>
+    <div class="marquee">
+      <div class="marquee-group" id="logo-group-a">
+        <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/BMW-150x150.png" alt="BMW" loading="lazy" />
+        <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/Porsche-1-150x150.png" alt="Porsche" loading="lazy" />
+        <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/LOreal-150x150.png" alt="L'Oreal" loading="lazy" />
+        <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/Hilton-1-150x150.png" alt="Hilton" loading="lazy" />
+        <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/Intercontinental-150x150.png" alt="InterContinental" loading="lazy" />
+        <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/Sheraton-Grand-Mirage-1-150x150.png" alt="Sheraton Grand Mirage" loading="lazy" />
+        <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/The-Langham-1-150x150.png" alt="The Langham" loading="lazy" />
+        <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/Multiplex-1-150x150.png" alt="Multiplex" loading="lazy" />
+        <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/John-Holland-1-150x150.png" alt="John Holland" loading="lazy" />
+        <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/CAT-1-150x150.png" alt="CAT" loading="lazy" />
+        <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/NRL-150x150.png" alt="NRL" loading="lazy" />
+        <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/Dorsett-1-150x150.png" alt="Dorsett" loading="lazy" />
+      </div>
+      <div class="marquee-group" aria-hidden="true">
+        <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/BMW-150x150.png" alt="" loading="lazy" />
+        <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/Porsche-1-150x150.png" alt="" loading="lazy" />
+        <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/LOreal-150x150.png" alt="" loading="lazy" />
+        <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/Hilton-1-150x150.png" alt="" loading="lazy" />
+        <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/Intercontinental-150x150.png" alt="" loading="lazy" />
+        <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/Sheraton-Grand-Mirage-1-150x150.png" alt="" loading="lazy" />
+        <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/The-Langham-1-150x150.png" alt="" loading="lazy" />
+        <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/Multiplex-1-150x150.png" alt="" loading="lazy" />
+        <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/John-Holland-1-150x150.png" alt="" loading="lazy" />
+        <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/CAT-1-150x150.png" alt="" loading="lazy" />
+        <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/NRL-150x150.png" alt="" loading="lazy" />
+        <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/Dorsett-1-150x150.png" alt="" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TRANSITION LINE ===================== -->
+  <section class="transition-line">
+    <p class="fade-up">Not just seen.<br /><span class="accent">Felt.</span></p>
+  </section>
+
+  <!-- ===================== SELECTED WORK ===================== -->
+  <section class="work" id="work">
+    <div class="work-head">
+      <h2 class="display fade-up">Selected<br />Work</h2>
+      <p class="work-intro fade-up">A portfolio built on intention. Brand stories, product films and campaigns made to move the brands behind them.</p>
+    </div>
+
+    <div class="hairline" style="margin-bottom: clamp(40px, 6vh, 80px);"></div>
+
+    <div class="work-grid">
+
+      <article class="project p-01 fade-up">
+        <a href="#" aria-label="Dreamworld - Experience, Tourism">
+          <figure class="project-figure clip-img">
+            <img src="https://bleomedia.com.au/wp-content/uploads/2023/08/bleo___dreamworld_-_event_showcase_video-1440p.00_00_00_00.Still0012.jpg" alt="Dreamworld experience film" loading="lazy" />
+          </figure>
+          <div class="project-meta">
+            <span class="project-index">01</span>
+            <span class="project-titles">
+              <span class="project-title">Dreamworld</span>
+              <span class="project-cat">Experience, Tourism</span>
+            </span>
+            <span class="project-arrow">View &rarr;</span>
+          </div>
+        </a>
+      </article>
+
+      <article class="project p-02 fade-up">
+        <a href="#" aria-label="Pembroke - Brand Story">
+          <figure class="project-figure clip-img">
+            <img src="https://bleomedia.com.au/wp-content/uploads/2023/08/bleo___pembroke_-_showcase_video-1440p.00_00_02_16.Still001.jpg" alt="Pembroke brand story film" loading="lazy" />
+          </figure>
+          <div class="project-meta">
+            <span class="project-index">02</span>
+            <span class="project-titles">
+              <span class="project-title">Pembroke</span>
+              <span class="project-cat">Brand Story</span>
+            </span>
+            <span class="project-arrow">View &rarr;</span>
+          </div>
+        </a>
+      </article>
+
+      <article class="project p-03 fade-up">
+        <a href="#" aria-label="Hyber Nation - Product Film">
+          <figure class="project-figure clip-img">
+            <img src="https://bleomedia.com.au/wp-content/uploads/2021/08/bleo___hyber_nation_-_product_video-1440p.00_00_27_17.Still001.jpg" alt="Hyber Nation product film" loading="lazy" />
+          </figure>
+          <div class="project-meta">
+            <span class="project-index">03</span>
+            <span class="project-titles">
+              <span class="project-title">Hyber Nation</span>
+              <span class="project-cat">Product Film</span>
+            </span>
+            <span class="project-arrow">View &rarr;</span>
+          </div>
+        </a>
+      </article>
+
+      <article class="project p-04 fade-up">
+        <a href="#" aria-label="InterContinental - Commercial">
+          <figure class="project-figure clip-img">
+            <img src="https://bleomedia.com.au/wp-content/uploads/2022/09/Intercontinental-Website-Thumbnail.jpg" alt="InterContinental commercial" loading="lazy" />
+          </figure>
+          <div class="project-meta">
+            <span class="project-index">04</span>
+            <span class="project-titles">
+              <span class="project-title">InterContinental</span>
+              <span class="project-cat">Commercial</span>
+            </span>
+            <span class="project-arrow">View &rarr;</span>
+          </div>
+        </a>
+      </article>
+
+      <article class="project p-05 fade-up">
+        <a href="#" aria-label="Proud Smile - Brand Story, Health">
+          <figure class="project-figure clip-img">
+            <img src="https://bleomedia.com.au/wp-content/uploads/2023/08/Proud-Smile-Story-Telling-Video-FINAL.00_00_07_19.Still001.jpg" alt="Proud Smile brand story" loading="lazy" />
+          </figure>
+          <div class="project-meta">
+            <span class="project-index">05</span>
+            <span class="project-titles">
+              <span class="project-title">Proud Smile</span>
+              <span class="project-cat">Brand Story, Health</span>
+            </span>
+            <span class="project-arrow">View &rarr;</span>
+          </div>
+        </a>
+      </article>
+
+      <article class="project p-06 fade-up">
+        <a href="#" aria-label="Gennari Group - Brand Story">
+          <figure class="project-figure clip-img">
+            <img src="https://bleomedia.com.au/wp-content/uploads/2024/12/Gennaru-Thumbnail.jpg" alt="Gennari Group brand story" loading="lazy" />
+          </figure>
+          <div class="project-meta">
+            <span class="project-index">06</span>
+            <span class="project-titles">
+              <span class="project-title">Gennari Group</span>
+              <span class="project-cat">Brand Story</span>
+            </span>
+            <span class="project-arrow">View &rarr;</span>
+          </div>
+        </a>
+      </article>
+
+      <!-- small grid tiles (burnt-in text) -->
+      <div class="work-tiles">
+        <article class="project tile fade-up">
+          <a href="#" aria-label="YOT Club - Hospitality">
+            <figure class="project-figure clip-img">
+              <img src="https://bleomedia.com.au/wp-content/uploads/2023/01/YOT-Club-Website-Thumbnail.jpg" alt="YOT Club hospitality film" loading="lazy" />
+            </figure>
+            <div class="project-meta">
+              <span class="project-titles">
+                <span class="project-title">YOT Club</span>
+                <span class="project-cat">Hospitality</span>
+              </span>
+              <span class="project-arrow">View &rarr;</span>
+            </div>
+          </a>
+        </article>
+        <article class="project tile fade-up">
+          <a href="#" aria-label="Multiplex Jewel - Brand Film">
+            <figure class="project-figure clip-img">
+              <img src="https://bleomedia.com.au/wp-content/uploads/2021/02/bleo___multiplex_the_jewel_-_grand_showcase_video-1440p.00_00_18_04.Still002.jpg" alt="Multiplex Jewel brand film" loading="lazy" />
+            </figure>
+            <div class="project-meta">
+              <span class="project-titles">
+                <span class="project-title">Multiplex Jewel</span>
+                <span class="project-cat">Brand Film</span>
+              </span>
+              <span class="project-arrow">View &rarr;</span>
+            </div>
+          </a>
+        </article>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== STRATEGIES (off-white) ===================== -->
+  <section class="strategies" id="approach">
+    <span class="section-label fade-up">How we work</span>
+
+    <div class="strat-head">
+      <h2 class="display fade-up">Strategy<br />First.</h2>
+      <p class="strat-pillar fade-up"><strong>Creative without strategy lacks direction. Strategy without creative lacks impact.</strong> We bring both together, in that order.</p>
+    </div>
+
+    <p class="strat-belief fade-up">Great brands don't grow from more content. <span class="muted">They grow from better strategy, stronger creative, and stories shared with purpose.</span></p>
+
+    <div class="order-list">
+      <div class="order-item fade-up">
+        <span class="order-num">01</span>
+        <span class="order-name">Marketing Strategy</span>
+        <span class="order-desc">Clarity before creativity. The plan that gives everything direction.</span>
+      </div>
+      <div class="order-item fade-up">
+        <span class="order-num">02</span>
+        <span class="order-name">Brand and Design</span>
+        <span class="order-desc">A cohesive identity built to look and feel a level above.</span>
+      </div>
+      <div class="order-item fade-up">
+        <span class="order-num">03</span>
+        <span class="order-name">Creative Production</span>
+        <span class="order-desc">Captivating film and content, crafted with intention.</span>
+      </div>
+      <div class="order-item fade-up">
+        <span class="order-num">04</span>
+        <span class="order-name">Marketing Activation</span>
+        <span class="order-desc">Powerful stories, shared properly, where they perform.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TRANSITION LINE ===================== -->
+  <section class="transition-line">
+    <p class="fade-up">Built with intention.<br /><span class="accent">Shared with purpose.</span></p>
+  </section>
+
+  <!-- ===================== DIFFERENCE + AI ===================== -->
+  <section class="difference">
+    <div class="diff-grid">
+      <div class="diff-left">
+        <span class="section-label fade-up" style="margin-bottom: 28px;">What makes us different</span>
+        <h2 class="display fade-up">One team.<br />Both halves.</h2>
+        <p class="fade-up">Specialist marketers and specialist creatives, working as one. Most agencies pick a side. We refuse to, because the brands that win need both pulling in the same direction.</p>
+      </div>
+      <div class="diff-cards">
+        <div class="diff-card fade-up">
+          <span class="dc-num">A</span>
+          <div>
+            <h3>Integrated by design</h3>
+            <p>Strategy and craft sit at the same table from day one, so nothing gets lost in the handoff. The thinking and the making never drift apart.</p>
+          </div>
+        </div>
+        <div class="diff-card fade-up">
+          <span class="dc-num">B</span>
+          <div>
+            <h3>AI-forward</h3>
+            <p>We work AI-forward across strategy, creative and performance, using it to move faster and sharper without ever losing the human touch that makes work resonate.</p>
+            <span class="ai-tag">Strategy / Creative / Performance</span>
+          </div>
+        </div>
+        <div class="diff-card fade-up">
+          <span class="dc-num">C</span>
+          <div>
+            <h3>Made to perform</h3>
+            <p>Every decision is measured against a single question. Does it move the brand forward. Beauty and results are not a trade-off here.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TRANSFORMATION ===================== -->
+  <section class="transform">
+    <div class="transform-head">
+      <span class="section-label fade-up" style="justify-content: center;">The transformation</span>
+      <h2 class="display fade-up" style="margin-top: 20px;">Before <span class="arrow">&rarr;</span> After</h2>
+    </div>
+
+    <div class="ba-grid">
+      <div class="ba-col ba-before fade-up">
+        <span class="ba-tag">Before Bleo</span>
+        <ul class="ba-list">
+          <li><span class="dot"></span>Disconnected marketing</li>
+          <li><span class="dot"></span>Generic content</li>
+          <li><span class="dot"></span>Unclear direction</li>
+          <li><span class="dot"></span>Reactive decisions</li>
+          <li><span class="dot"></span>No clear plan</li>
+        </ul>
+      </div>
+      <div class="ba-divider" aria-hidden="true"></div>
+      <div class="ba-col ba-after fade-up">
+        <span class="ba-tag">After Bleo</span>
+        <ul class="ba-list">
+          <li><span class="dot"></span>Clear strategy and direction</li>
+          <li><span class="dot"></span>A stronger, cohesive brand</li>
+          <li><span class="dot"></span>High-quality, purposeful creative</li>
+          <li><span class="dot"></span>Confident decisions</li>
+          <li><span class="dot"></span>A brand that connects</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SHOWREEL ===================== -->
+  <section class="showreel">
+    <div class="reel-head">
+      <h2 class="display fade-up">The Showreel</h2>
+      <p class="reel-sub fade-up">Powerful stories, shared properly. A look at the work and the brands we move.</p>
+    </div>
+    <div class="reel-frame fade-up" id="reel" role="button" tabindex="0" aria-label="Play Bleo showreel">
+      <img src="https://i.ytimg.com/vi/m4wbLqxY2oo/maxresdefault.jpg" alt="Bleo showreel poster" loading="lazy" />
+      <div class="reel-play">
+        <span class="ring">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+        </span>
+        <span class="reel-label">Watch the reel</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TESTIMONIAL ===================== -->
+  <section class="testimonial">
+    <blockquote class="fade-up">"Couldn't have asked for a better experience from a production agency. <span class="muted">They listened and delivered beyond what we imagined."</span></blockquote>
+    <p class="attribution fade-up"><strong>Caroline</strong> &nbsp;/&nbsp; Animal Welfare League</p>
+  </section>
+
+  <!-- ===================== STUDIOS ===================== -->
+  <section class="studios" id="studios">
+    <div class="studios-head">
+      <h2 class="display fade-up">Three Studios</h2>
+      <p class="studios-sub fade-up">Brisbane / Gold Coast - Sydney - Melbourne</p>
+    </div>
+    <div class="studios-grid">
+      <div class="studio fade-up">
+        <p class="studio-no">01 / Gold Coast</p>
+        <h3>Gold Coast</h3>
+        <address>
+          5/2172 Gold Coast Hwy<br />
+          Miami QLD 4220<br />
+          <a class="studio-phone" href="tel:+61734970689">(07) 3497 0689</a>
+        </address>
+      </div>
+      <div class="studio fade-up">
+        <p class="studio-no">02 / Sydney</p>
+        <h3>Sydney</h3>
+        <address>
+          Level 16 and 17, 1 Denison St<br />
+          North Sydney NSW 2060<br />
+          <a class="studio-phone" href="tel:+61291275611">(02) 9127 5611</a>
+        </address>
+      </div>
+      <div class="studio fade-up">
+        <p class="studio-no">03 / Melbourne</p>
+        <h3>Melbourne</h3>
+        <address>
+          Level 3/257 Collins St<br />
+          Melbourne VIC 3000<br />
+          <a class="studio-phone" href="tel:+61399670193">(03) 9967 0193</a>
+        </address>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONTACT CTA ===================== -->
+  <section class="contact" id="contact">
+    <div class="contact-eye" aria-hidden="true">
+      <svg viewBox="0 0 120 90">
+        <ellipse cx="60" cy="34" rx="54" ry="22" fill="none" stroke="currentColor" stroke-width="3"/>
+        <ellipse cx="60" cy="56" rx="54" ry="22" fill="none" stroke="currentColor" stroke-width="3"/>
+        <ellipse cx="60" cy="45" rx="22" ry="6.5" fill="currentColor"/>
+      </svg>
+    </div>
+    <span class="eyebrow fade-up">Ready to grow</span>
+    <h2 class="display fade-up">Let's make<br />something timeless.</h2>
+    <div class="contact-cta-row fade-up">
+      <a href="mailto:info@bleocorp.com.au" class="btn-primary">
+        Start a project
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a href="tel:1300174007" class="btn-ghost">Call 1300 174 007</a>
+    </div>
+    <div class="contact-details fade-up">
+      <a href="mailto:info@bleocorp.com.au">info@bleocorp.com.au</a>
+      <span>Brisbane / Sydney / Melbourne</span>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img class="wordmark-img" src="https://bleomedia.com.au/wp-content/uploads/2024/12/Logo_Bleo_4k_White-1024x334.png" alt="Bleo" loading="lazy" />
+        <p>A high-end creative growth partner. Stories that move people. Strategies that move markets.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#work">Work</a></li>
+          <li><a href="#approach">Approach</a></li>
+          <li><a href="#studios">Studios</a></li>
+          <li><a href="#contact">Start a project</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://instagram.com/bleo_creative" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://youtube.com/bleomedia" target="_blank" rel="noopener">YouTube</a></li>
+          <li><a href="https://linkedin.com/company/bleo-media" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://facebook.com/BleoAus" target="_blank" rel="noopener">Facebook</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="copy">&copy; 2011 - 2026 Bleo. Integrated Creative Agency.</span>
+      <span class="footer-tagline">Powerful stories, shared properly.</span>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      // ---- orchestrated page load reveal ----
+      window.addEventListener("load", function () {
+        requestAnimationFrame(function () {
+          document.body.classList.add("loaded");
+        });
+      });
+      // fallback if load is slow / cached
+      setTimeout(function () {
+        document.body.classList.add("loaded");
+      }, 700);
+
+      // ---- scroll-triggered reveals ----
+      var observed = document.querySelectorAll(".fade-up, .clip-img, .hairline");
+
+      if (reduceMotion || !("IntersectionObserver" in window)) {
+        observed.forEach(function (el) { el.classList.add("in"); });
+      } else {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              var el = entry.target;
+              // stagger siblings inside a shared grid / list
+              var siblings = el.parentElement
+                ? Array.prototype.slice.call(el.parentElement.children).filter(function (c) {
+                    return c.classList && c.classList.contains("fade-up");
+                  })
+                : [];
+              var idx = siblings.indexOf(el);
+              var delay = idx > 0 ? Math.min(idx, 6) * 80 : 0;
+              el.style.transitionDelay = delay + "ms";
+              el.classList.add("in");
+              io.unobserve(el);
+            }
+          });
+        }, { threshold: 0.16, rootMargin: "0px 0px -8% 0px" });
+
+        observed.forEach(function (el) { io.observe(el); });
+      }
+
+      // ---- showreel click to play ----
+      var reel = document.getElementById("reel");
+      function playReel() {
+        if (reel.dataset.playing === "true") return;
+        reel.dataset.playing = "true";
+        var iframe = document.createElement("iframe");
+        iframe.setAttribute("src", "https://www.youtube.com/embed/m4wbLqxY2oo?autoplay=1&rel=0&modestbranding=1");
+        iframe.setAttribute("title", "Bleo showreel");
+        iframe.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture");
+        iframe.setAttribute("allowfullscreen", "");
+        reel.innerHTML = "";
+        reel.appendChild(iframe);
+        reel.style.cursor = "default";
+      }
+      if (reel) {
+        reel.addEventListener("click", playReel);
+        reel.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); playReel(); }
+        });
+      }
+    })();
+  </script>
+
+</body>
+</html>

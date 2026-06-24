@@ -3,483 +3,82 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Bleo — Creative Growth Partner</title>
+<title>Bleo — Website Directions</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<!-- Recent Grotesk is the licensed brand font; Anton stands in until it is self-hosted. Inter is the brand secondary. -->
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 <style>
-  :root{
-    --stories:#060606;        /* primary - black, "Stories" / production+creative */
-    --strategies:#fdfeff;     /* secondary - off-white, "Strategies" / marketing */
-    --grey:#c3cad3;           /* supporting soft blue-grey */
-    --muted:rgba(253,254,255,.52);
-    --muted-d:rgba(6,6,6,.56);
-    --line:rgba(253,254,255,.14);
-    --line-d:rgba(6,6,6,.14);
-    --display:"Recent Grotesk","Anton",sans-serif;
-    --body:"Inter",sans-serif;
-  }
+  :root{--stories:#060606;--strategies:#fdfeff;--grey:#c3cad3;--muted:rgba(253,254,255,.5);--line:rgba(253,254,255,.13);
+    --display:"Recent Grotesk","Anton",sans-serif;--body:"Inter",sans-serif}
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{background:var(--stories);color:var(--strategies);font-family:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden;cursor:none}
-  @media(hover:none){body{cursor:auto}}
-  body::after{content:"";position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.04;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-  ::selection{background:var(--strategies);color:var(--stories)}
+  body{background:var(--stories);color:var(--strategies);font-family:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased}
   a{color:inherit;text-decoration:none}
-  img{display:block;max-width:100%}
-  .wrap{max-width:1320px;margin:0 auto;padding:0 36px}
-  .disp{font-family:var(--display);font-weight:400;letter-spacing:.01em;line-height:.92;text-transform:uppercase}
-  .eyebrow{font-family:var(--body);font-weight:500;font-size:11px;letter-spacing:.28em;text-transform:uppercase}
-
-  /* logo mark (converging ellipses / eye) */
-  .mark{width:34px;height:26px;display:inline-block;vertical-align:middle;color:currentColor}
-  .mark .lens{fill:currentColor}
-
-  /* cursor */
-  .cur,.cur-dot{position:fixed;top:0;left:0;z-index:10000;pointer-events:none;border-radius:50%;mix-blend-mode:difference}
-  .cur{width:36px;height:36px;border:1px solid #fff;transform:translate(-50%,-50%);transition:width .25s,height .25s,background .25s}
-  .cur-dot{width:5px;height:5px;background:#fff;transform:translate(-50%,-50%)}
-  .cur.grow{width:70px;height:70px;background:rgba(255,255,255,.12)}
-  @media(hover:none){.cur,.cur-dot{display:none}}
-
-  /* preloader */
-  #pre{position:fixed;inset:0;z-index:10001;background:var(--stories);display:grid;place-items:center;gap:22px;transition:opacity .8s,visibility .8s}
-  #pre.done{opacity:0;visibility:hidden}
-  #pre .mark{width:84px;height:64px;animation:pulse 1.8s ease-in-out infinite}
-  #pre .pt{font-family:var(--body);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted)}
-  @keyframes pulse{0%,100%{opacity:.5;transform:scale(.96)}50%{opacity:1;transform:scale(1)}}
-
-  /* nav */
-  header{position:fixed;top:0;left:0;right:0;z-index:200;transition:.4s;border-bottom:1px solid transparent}
-  header.scrolled{background:rgba(6,6,6,.72);backdrop-filter:blur(16px);border-color:var(--line)}
-  .nav{display:flex;align-items:center;justify-content:space-between;height:84px}
-  .brand{display:flex;align-items:center;gap:12px;font-family:var(--display);font-size:26px;letter-spacing:.02em}
-  .nav-links{display:flex;gap:36px;align-items:center}
-  .nav-links a{font-size:13px;letter-spacing:.02em;color:var(--muted);transition:color .25s}
-  .nav-links a:hover{color:var(--strategies)}
-  .cta-btn{font-family:var(--body);font-weight:500;font-size:12px;letter-spacing:.04em;border:1px solid var(--line);padding:13px 22px;border-radius:40px;color:var(--strategies);transition:.35s}
-  .cta-btn:hover{background:var(--strategies);color:var(--stories);border-color:var(--strategies)}
-  .burger{display:none;flex-direction:column;gap:5px;background:none;border:0;padding:8px}
-  .burger span{width:26px;height:2px;background:var(--strategies)}
-
-  /* HERO */
-  .hero{position:relative;height:100svh;min-height:660px;overflow:hidden;display:flex;align-items:flex-end}
-  .hero-media{position:absolute;inset:0;z-index:0}
-  .hero-media .slide{position:absolute;inset:0;opacity:0;transition:opacity 1.6s ease}
-  .hero-media .slide.on{opacity:1}
-  .hero-media .slide img{width:100%;height:100%;object-fit:cover;animation:kb 8s ease-out forwards;filter:grayscale(.2) contrast(1.05) brightness(.8)}
-  @keyframes kb{from{transform:scale(1.12)}to{transform:scale(1)}}
-  .hero-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,6,6,.5) 0%,transparent 26%,transparent 52%,rgba(6,6,6,.97) 100%)}
-  .lb{position:absolute;left:0;right:0;height:clamp(24px,5vh,54px);background:var(--stories);z-index:3}
-  .lb.t{top:0}.lb.b{bottom:0}
-  .hero-inner{position:relative;z-index:5;width:100%;padding-bottom:clamp(48px,8vh,104px)}
-  .hero-eyebrow{display:inline-flex;align-items:center;gap:11px;color:var(--strategies);margin-bottom:26px}
-  .hero-eyebrow .dot{width:8px;height:8px;border-radius:50%;background:var(--strategies);opacity:.8;animation:blink 1.6s infinite}
-  @keyframes blink{0%,100%{opacity:.9}50%{opacity:.25}}
-  h1.hero-title{font-family:var(--display);font-weight:400;line-height:.9;letter-spacing:.005em;font-size:clamp(40px,8.4vw,128px);text-transform:uppercase}
-  h1.hero-title .ln{display:block;overflow:hidden}
-  h1.hero-title .ln span{display:block;transform:translateY(110%);animation:rise 1s cubic-bezier(.2,.8,.2,1) forwards}
-  h1.hero-title .ln:nth-child(2) span{animation-delay:.12s;color:var(--grey)}
-  .hero-foot{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;margin-top:36px;flex-wrap:wrap}
-  .hero-foot p{max-width:460px;color:#d9d7d2;font-size:clamp(15px,1.5vw,17px)}
-  .hero-actions{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-top:20px}
-  .btn-solid{background:var(--strategies);color:var(--stories);font-family:var(--body);font-weight:600;font-size:12px;letter-spacing:.04em;padding:15px 26px;border-radius:40px;transition:.3s}
-  .btn-solid:hover{transform:translateY(-2px)}
-  .play-link{display:inline-flex;align-items:center;gap:13px;color:var(--strategies)}
-  .play-link .pc{width:48px;height:48px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;transition:.3s}
-  .play-link:hover .pc{background:rgba(255,255,255,.1);border-color:#fff}
-  .play-link .pc svg{fill:#fff;margin-left:3px}
-  .play-link span.t{font-size:12px;letter-spacing:.04em}
-  @keyframes rise{to{transform:translateY(0)}}
-  @keyframes fade{to{opacity:1}}
-  .din{opacity:0;animation:fade 1s forwards}.d5{animation-delay:.5s}.d7{animation-delay:.7s}
-
-  /* BELIEF band */
-  .belief{padding:clamp(80px,12vh,150px) 0;border-bottom:1px solid var(--line)}
-  .belief p{font-family:var(--display);font-weight:400;font-size:clamp(28px,4.6vw,68px);line-height:1.02;letter-spacing:.01em;text-transform:uppercase;max-width:18ch}
-  .belief p .g{color:var(--grey)}
-
-  /* CLIENTS */
-  .clients{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:30px 0;overflow:hidden;position:relative}
-  .clients .lab{position:absolute;left:36px;top:50%;transform:translateY(-50%);z-index:3;color:var(--muted);background:var(--stories);padding-right:22px}
-  .cmarq{display:flex;width:max-content;align-items:center;gap:60px;animation:scroll 36s linear infinite;padding-left:230px}
-  .clients:hover .cmarq{animation-play-state:paused}
-  .cmarq img{height:32px;width:auto;opacity:.6;filter:brightness(0) invert(1);transition:opacity .3s}
-  .cmarq img:hover{opacity:1}
-  @keyframes scroll{to{transform:translateX(-50%)}}
-
-  /* sections */
-  .pad{padding:clamp(90px,13vh,160px) 0}
-  .sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;margin-bottom:60px}
-  .k{font-family:var(--body);font-weight:500;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:18px}
-  .sec-head h2{font-family:var(--display);font-weight:400;font-size:clamp(32px,5vw,72px);line-height:.96;letter-spacing:.01em;text-transform:uppercase}
-  .reveal{opacity:0;transform:translateY(42px);transition:.95s cubic-bezier(.16,1,.3,1)}
-  .reveal.in{opacity:1;transform:none}
-
-  /* WORK */
-  .work-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
-  .pj{position:relative;overflow:hidden;border-radius:4px;cursor:pointer;background:#101012}
-  .pj .ph{position:relative;overflow:hidden;height:100%}
-  .pj img{width:100%;height:100%;object-fit:cover;filter:grayscale(.4) contrast(1.05) brightness(.78);transition:transform .9s cubic-bezier(.16,1,.3,1),filter .6s}
-  .pj:hover img{transform:scale(1.06);filter:grayscale(0) brightness(.94)}
-  .pj::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.82));z-index:1}
-  .pj .info{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:24px}
-  .pj .info .cat{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--grey);margin-bottom:7px;font-weight:500}
-  .pj .info h3{font-family:var(--display);font-weight:400;font-size:clamp(20px,2vw,30px);letter-spacing:.01em;text-transform:uppercase}
-  .pj .tc{position:absolute;top:15px;left:15px;z-index:2;font-size:10px;letter-spacing:.12em;background:rgba(0,0,0,.4);padding:5px 9px;border-radius:3px;backdrop-filter:blur(4px);font-weight:500}
-  .span8{grid-column:span 8}.span4{grid-column:span 4}.span6{grid-column:span 6}
-  .h-wide{aspect-ratio:16/9}
-  .work-more{margin-top:46px;display:flex;justify-content:center}
-
-  /* APPROACH (white "Strategies" section) */
-  .approach{background:var(--strategies);color:var(--stories)}
-  .approach .k{color:var(--muted-d)}
-  .approach h2{color:var(--stories)}
-  .approach .lead{font-family:var(--display);font-weight:400;font-size:clamp(22px,2.4vw,32px);line-height:1.1;text-transform:uppercase;max-width:20ch;letter-spacing:.01em}
-  .steps{margin-top:54px;border-top:1px solid var(--line-d)}
-  .step{display:grid;grid-template-columns:90px 1fr 1.1fr;gap:30px;align-items:baseline;padding:34px 0;border-bottom:1px solid var(--line-d);transition:.4s}
-  .step:hover{padding-left:16px}
-  .step .n{font-family:var(--display);font-size:26px;color:var(--stories)}
-  .step h3{font-family:var(--display);font-weight:400;font-size:clamp(24px,3vw,40px);text-transform:uppercase;letter-spacing:.01em}
-  .step p{color:var(--muted-d);font-size:15px}
-
-  /* DIFFERENCE */
-  .diff-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
-  .diff-grid .big{font-family:var(--display);font-weight:400;font-size:clamp(26px,3.4vw,46px);line-height:1.08;text-transform:uppercase;letter-spacing:.01em}
-  .diff-grid .big .g{color:var(--grey)}
-  .diff-grid p{color:#cfccc6;font-size:16px;margin-bottom:18px}
-  .ai-chip{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:30px;padding:9px 16px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--grey);margin-top:8px}
-  .ai-chip .dot{width:7px;height:7px;border-radius:50%;background:var(--grey)}
-
-  /* TRANSFORMATION */
-  .trans{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:6px;overflow:hidden}
-  .tcol{padding:46px}
-  .tcol.before{background:transparent}
-  .tcol.after{background:rgba(253,254,255,.04);border-left:1px solid var(--line)}
-  .tcol .tag{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:24px}
-  .tcol.after .tag{color:var(--strategies)}
-  .tcol ul{list-style:none}
-  .tcol li{padding:13px 0;border-bottom:1px solid var(--line);font-size:clamp(16px,1.7vw,20px);display:flex;align-items:center;gap:12px}
-  .tcol li:last-child{border-bottom:0}
-  .tcol.before li{color:var(--muted)}
-  .tcol li .ic{font-size:13px;opacity:.6}
-  .tcol.after li .ic{color:var(--grey);opacity:1}
-
-  /* FILM */
-  .film{position:relative;border-radius:6px;overflow:hidden;aspect-ratio:16/9;cursor:pointer;background:#000}
-  .film img{width:100%;height:100%;object-fit:cover;filter:grayscale(.1) contrast(1.05) brightness(.72);transition:.8s}
-  .film:hover img{transform:scale(1.03);filter:grayscale(0) brightness(.82)}
-  .film .ov{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;z-index:2}
-  .film .pbig{width:92px;height:92px;border:1px solid rgba(255,255,255,.6);border-radius:50%;display:grid;place-items:center;backdrop-filter:blur(3px);transition:.4s}
-  .film:hover .pbig{background:rgba(255,255,255,.16);transform:scale(1.08)}
-  .film .pbig svg{fill:#fff;margin-left:5px}
-  .film .lbl{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#fff;font-weight:500}
-  .film iframe{width:100%;height:100%;border:0;position:absolute;inset:0}
-
-  /* TESTIMONIAL */
-  .testi{max-width:1000px}
-  .testi .stars{color:var(--grey);letter-spacing:5px;margin-bottom:24px}
-  .testi p{font-family:var(--display);font-weight:400;font-size:clamp(24px,3.4vw,48px);line-height:1.12;letter-spacing:.01em;text-transform:uppercase}
-  .testi .who{margin-top:26px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-
-  /* STUDIOS */
-  .locs{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);border-radius:6px;overflow:hidden}
-  .loc{padding:40px;border-right:1px solid var(--line);transition:.4s}
-  .loc:last-child{border-right:0}.loc:hover{background:rgba(253,254,255,.04)}
-  .loc .c{font-family:var(--display);font-weight:400;font-size:26px;margin-bottom:14px;text-transform:uppercase}
-  .loc .a{color:var(--muted);font-size:14px;line-height:1.7}
-  .loc .p{margin-top:14px;font-size:13px;color:var(--strategies)}
-
-  /* CTA */
-  .cta{text-align:center}
-  .cta h2{font-family:var(--display);font-weight:400;font-size:clamp(44px,10vw,170px);line-height:.9;letter-spacing:.01em;text-transform:uppercase}
-  .cta h2 a{display:inline-block;transition:.4s}
-  .cta h2 a:hover{color:var(--grey)}
-  .cta .sub{color:var(--muted);max-width:500px;margin:26px auto 36px;font-size:17px}
-  .cta-row{display:flex;gap:32px;justify-content:center;flex-wrap:wrap;font-size:14px;letter-spacing:.02em}
-  .cta-row a:hover{color:var(--grey)}
-
-  /* FOOTER */
-  footer{border-top:1px solid var(--line);padding:60px 0 40px}
-  .foot-top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;margin-bottom:50px}
-  .foot-top .fb .brand{margin-bottom:16px}
-  .foot-top .fb p{color:var(--muted);max-width:300px;font-size:14px}
-  .foot-nav{display:flex;gap:56px;flex-wrap:wrap}
-  .foot-col h5{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;font-weight:600}
-  .foot-col a{display:block;color:#cfccc6;font-size:14px;padding:5px 0;transition:.25s}
-  .foot-col a:hover{color:var(--strategies)}
-  .foot-bot{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;padding-top:26px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}
-  .socials{display:flex;gap:14px}
-  .socials a{width:38px;height:38px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;transition:.3s;font-size:11px}
-  .socials a:hover{background:var(--strategies);color:var(--stories)}
-
-  @media(max-width:1000px){
-    .work-grid{grid-template-columns:repeat(6,1fr)}.span8,.span4,.span6{grid-column:span 6}
-    .diff-grid{grid-template-columns:1fr;gap:36px}
-    .step{grid-template-columns:60px 1fr;gap:18px}.step p{grid-column:1/-1}
-    .locs{grid-template-columns:1fr}.loc{border-right:0;border-bottom:1px solid var(--line)}
-    .trans{grid-template-columns:1fr}.tcol.after{border-left:0;border-top:1px solid var(--line)}
-  }
-  @media(max-width:680px){
-    .nav-links{display:none}.burger{display:flex}
-    .nav-links.open{display:flex;position:absolute;top:84px;left:0;right:0;flex-direction:column;background:rgba(6,6,6,.98);padding:24px 36px;gap:18px;border-bottom:1px solid var(--line)}
-    body{cursor:auto}.cur,.cur-dot{display:none}
-  }
-  .tag{position:fixed;left:16px;bottom:16px;z-index:9997;font-family:var(--body);font-size:10px;letter-spacing:.12em;color:var(--muted);background:rgba(6,6,6,.6);border:1px solid var(--line);padding:7px 12px;border-radius:30px}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 36px}
+  .mark{width:30px;height:23px;color:currentColor}
+  .eyebrow{font-weight:500;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted)}
+  header{padding:40px 0 10px}
+  .top{display:flex;align-items:center;gap:12px;font-family:var(--display);font-size:24px;letter-spacing:.02em;text-transform:uppercase}
+  .intro{padding:60px 0 50px}
+  .intro h1{font-family:var(--display);font-weight:400;font-size:clamp(40px,7vw,104px);line-height:.92;letter-spacing:.01em;text-transform:uppercase;margin:22px 0 0}
+  .intro h1 .g{color:var(--grey)}
+  .intro p{color:var(--muted);max-width:560px;margin-top:22px;font-size:16px}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;padding-bottom:40px}
+  .card{border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#0c0c0e;transition:.4s;display:flex;flex-direction:column;min-height:300px}
+  .card:hover{transform:translateY(-6px);border-color:rgba(253,254,255,.4)}
+  .thumb{height:150px;position:relative;overflow:hidden;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:center}
+  /* mini wireframe hints per direction */
+  .t-cine{background:linear-gradient(180deg,#1a1a1d,#060606)}
+  .t-cine .b{font-family:var(--display);font-size:34px;color:#fff;opacity:.9;text-transform:uppercase}
+  .t-state{background:#060606}
+  .t-state .b{font-family:var(--display);font-size:52px;color:#fff;letter-spacing:-.02em;line-height:.8;text-align:center;text-transform:uppercase}
+  .t-split{display:grid;grid-template-columns:1fr 1fr}
+  .t-split .l{background:#060606;display:grid;place-items:center;font-family:var(--display);color:#fff;font-size:20px}
+  .t-split .r{background:#fdfeff;display:grid;place-items:center;font-family:var(--display);color:#060606;font-size:20px}
+  .t-show{background:#060606;display:grid;grid-template-columns:repeat(4,1fr);gap:5px;padding:5px}
+  .t-show i{background:linear-gradient(180deg,#2a2a2e,#141416);border-radius:2px;display:block}
+  .card .body{padding:26px;flex:1;display:flex;flex-direction:column}
+  .card .num{color:var(--grey);font-family:var(--display);font-size:18px}
+  .card h2{font-family:var(--display);font-weight:400;font-size:30px;text-transform:uppercase;letter-spacing:.01em;margin:6px 0 10px}
+  .card p{color:var(--muted);font-size:14px;flex:1}
+  .card .go{margin-top:20px;display:inline-flex;align-items:center;gap:8px;font-weight:500;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--strategies)}
+  .card .go .a{transition:.3s}.card:hover .go .a{transform:translateX(5px)}
+  .note{margin:14px 0 70px;padding:22px 26px;border:1px dashed var(--line);border-radius:8px;color:var(--muted);font-size:14px}
+  .note b{color:var(--strategies)}
+  @media(max-width:760px){.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<div class="tag">BRAND-ALIGNED · v3</div>
-<div class="cur"></div><div class="cur-dot"></div>
+<svg width="0" height="0" style="position:absolute"><defs><g id="m"><ellipse cx="60" cy="34" rx="54" ry="22" fill="none" stroke="currentColor" stroke-width="7"/><ellipse cx="60" cy="56" rx="54" ry="22" fill="none" stroke="currentColor" stroke-width="7"/><ellipse cx="60" cy="45" rx="22" ry="6.5" fill="currentColor"/></g></defs></svg>
 
-<!-- logo mark template -->
-<svg width="0" height="0" style="position:absolute"><defs><g id="bleomark"><ellipse cx="60" cy="34" rx="54" ry="22" fill="none" stroke="currentColor" stroke-width="7"/><ellipse cx="60" cy="56" rx="54" ry="22" fill="none" stroke="currentColor" stroke-width="7"/><ellipse cx="60" cy="45" rx="22" ry="6.5" class="lens"/></g></defs></svg>
+<header><div class="wrap"><div class="top"><svg class="mark" viewBox="0 0 120 90"><use href="#m"/></svg> Bleo</div></div></header>
 
-<div id="pre"><svg class="mark" viewBox="0 0 120 90"><use href="#bleomark"/></svg><div class="pt">Bleo</div></div>
+<section class="intro"><div class="wrap">
+  <span class="eyebrow">Website Redesign — Four Directions</span>
+  <h1>Same brand.<br><span class="g">Four ways to build it.</span></h1>
+  <p>Every option below uses your real brand, Recent Grotesk and Inter, the Stories / Strategies black-and-white palette, your eye logo and your actual footage. What changes is the layout and the experience. Open each, then tell me which feels like Bleo.</p>
+</div></section>
 
-<header id="hdr">
-  <div class="wrap nav">
-    <a class="brand" href="#top" data-cursor><svg class="mark" viewBox="0 0 120 90"><use href="#bleomark"/></svg> Bleo</a>
-    <nav class="nav-links" id="navlinks">
-      <a href="#work" data-cursor>Work</a>
-      <a href="#approach" data-cursor>Approach</a>
-      <a href="#difference" data-cursor>Difference</a>
-      <a href="#film" data-cursor>Showreel</a>
-      <a href="#contact" class="cta-btn" data-cursor>Start a project</a>
-    </nav>
-    <button class="burger" id="burger"><span></span><span></span><span></span></button>
+<div class="wrap">
+  <div class="grid">
+    <a class="card" href="concept-brand-v3.html">
+      <div class="thumb t-cine"><span class="b">Bleo</span></div>
+      <div class="body"><span class="num">01</span><h2>Cinematic</h2><p>Full-bleed footage hero, your tagline over moving film, dark and immersive. The version you have already seen.</p><span class="go">Open <span class="a">→</span></span></div>
+    </a>
+    <a class="card" href="dir-a-statement.html">
+      <div class="thumb t-state"><span class="b">Stories.<br>Strategies.</span></div>
+      <div class="body"><span class="num">02</span><h2>Statement</h2><p>Type-led and editorial. Your tagline set monumentally on pure black, work in a magazine-style grid. Timeless and confident.</p><span class="go">Open <span class="a">→</span></span></div>
+    </a>
+    <a class="card" href="dir-b-split.html">
+      <div class="thumb t-split"><div class="l">Stories</div><div class="r">Strategies</div></div>
+      <div class="body"><span class="num">03</span><h2>Split / Duality</h2><p>A literal split-screen: black "Stories" footage meets white "Strategies" type. Your colour names become the layout.</p><span class="go">Open <span class="a">→</span></span></div>
+    </a>
+    <a class="card" href="dir-c-showcase.html">
+      <div class="thumb t-show"><i></i><i></i><i></i><i></i></div>
+      <div class="body"><span class="num">04</span><h2>Showcase</h2><p>Work-first. Opens on an immersive wall of your footage scrolling like a reel; the words come after the work.</p><span class="go">Open <span class="a">→</span></span></div>
+    </a>
   </div>
-</header>
-
-<!-- HERO -->
-<section class="hero" id="top">
-  <div class="hero-media" id="heroMedia">
-    <div class="slide on"><img src="https://bleomedia.com.au/wp-content/uploads/2022/09/Sheraton-Website-Thumbnail.jpg" alt=""/></div>
-    <div class="slide"><img src="https://bleomedia.com.au/wp-content/uploads/2021/02/bleo___multiplex_the_jewel_-_grand_showcase_video-1440p.00_00_18_04.Still002.jpg" alt=""/></div>
-    <div class="slide"><img src="https://bleomedia.com.au/wp-content/uploads/2023/08/bleo___dreamworld_-_event_showcase_video-1440p.00_00_00_00.Still0012.jpg" alt=""/></div>
-    <div class="slide"><img src="https://bleomedia.com.au/wp-content/uploads/2023/08/bleo___pembroke_-_showcase_video-1440p.00_00_02_16.Still001.jpg" alt=""/></div>
-  </div>
-  <div class="lb t"></div><div class="lb b"></div>
-  <div class="wrap hero-inner">
-    <div class="hero-eyebrow eyebrow"><span class="dot"></span>Integrated Creative Agency — Est. 2011</div>
-    <h1 class="hero-title">
-      <span class="ln"><span>Stories that move people.</span></span>
-      <span class="ln"><span>Strategies that move markets.</span></span>
-    </h1>
-    <div class="hero-foot">
-      <p class="din d5">Bleo is a high-end creative growth partner. We connect strategic marketing with captivating creative production to grow brands ready to look, feel and perform at a higher level.</p>
-      <div class="hero-actions din d7">
-        <a href="#contact" class="btn-solid" data-cursor>Start a project</a>
-        <a href="#film" class="play-link" data-cursor><span class="pc"><svg width="15" height="15" viewBox="0 0 16 16"><path d="M3 2l11 6-11 6z"/></svg></span><span class="t">Watch the reel</span></a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- BELIEF -->
-<section class="belief">
-  <div class="wrap reveal">
-    <p>Great brands don't grow from more content. <span class="g">They grow from better strategy, stronger creative, and stories shared with purpose.</span></p>
-  </div>
-</section>
-
-<!-- CLIENTS -->
-<div class="clients">
-  <span class="lab eyebrow">Trusted by</span>
-  <div class="cmarq">
-    <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/BMW-150x150.png" alt="BMW"/>
-    <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/Porsche-1-150x150.png" alt="Porsche"/>
-    <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/LOreal-150x150.png" alt="L'Oreal"/>
-    <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/Hilton-1-150x150.png" alt="Hilton"/>
-    <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/Intercontinental-150x150.png" alt="InterContinental"/>
-    <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/Sheraton-Grand-Mirage-1-150x150.png" alt="Sheraton"/>
-    <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/The-Langham-1-150x150.png" alt="Langham"/>
-    <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/Multiplex-1-150x150.png" alt="Multiplex"/>
-    <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/John-Holland-1-150x150.png" alt="John Holland"/>
-    <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/CAT-1-150x150.png" alt="Caterpillar"/>
-    <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/NRL-150x150.png" alt="NRL"/>
-    <img src="https://bleomedia.com.au/wp-content/uploads/2025/06/Dorsett-1-150x150.png" alt="Dorsett"/>
-  </div>
+  <div class="note">These are concept drafts. Footage and copy are your real assets used as placeholders to refine; <b>Recent Grotesk</b> is stood in by Anton until the licensed font is added; the <b>eye logo</b> is my interpretation of your Venn mark.</div>
 </div>
-
-<!-- WORK -->
-<section class="pad" id="work">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <div><span class="k">(01) — Selected work</span><h2>Not just seen.<br>Felt.</h2></div>
-      <a href="#" class="cta-btn" data-cursor>View all projects</a>
-    </div>
-    <div class="work-grid">
-      <div class="pj span8 h-wide reveal" data-cursor><div class="ph"><img loading="lazy" src="https://bleomedia.com.au/wp-content/uploads/2021/02/bleo___multiplex_the_jewel_-_grand_showcase_video-1440p.00_00_18_04.Still002.jpg" alt="Multiplex Jewel"/></div><span class="tc">Brand Film</span><div class="info"><div class="cat">Property · Gold Coast</div><h3>Multiplex — Jewel</h3></div></div>
-      <div class="pj span4 h-wide reveal" data-cursor><div class="ph"><img loading="lazy" src="https://bleomedia.com.au/wp-content/uploads/2023/08/bleo___dreamworld_-_event_showcase_video-1440p.00_00_00_00.Still0012.jpg" alt="Dreamworld"/></div><span class="tc">Experience</span><div class="info"><div class="cat">Tourism</div><h3>Dreamworld</h3></div></div>
-      <div class="pj span4 h-wide reveal" data-cursor><div class="ph"><img loading="lazy" src="https://bleomedia.com.au/wp-content/uploads/2022/09/Sheraton-Website-Thumbnail.jpg" alt="Sheraton"/></div><span class="tc">Campaign</span><div class="info"><div class="cat">Hospitality</div><h3>Sheraton Grand Mirage</h3></div></div>
-      <div class="pj span4 h-wide reveal" data-cursor><div class="ph"><img loading="lazy" src="https://bleomedia.com.au/wp-content/uploads/2022/09/Intercontinental-Website-Thumbnail.jpg" alt="InterContinental"/></div><span class="tc">TVC</span><div class="info"><div class="cat">Hospitality</div><h3>InterContinental</h3></div></div>
-      <div class="pj span4 h-wide reveal" data-cursor><div class="ph"><img loading="lazy" src="https://bleomedia.com.au/wp-content/uploads/2023/08/bleo___pembroke_-_showcase_video-1440p.00_00_02_16.Still001.jpg" alt="Pembroke"/></div><span class="tc">Brand Story</span><div class="info"><div class="cat">Resources</div><h3>Pembroke</h3></div></div>
-      <div class="pj span6 h-wide reveal" data-cursor><div class="ph"><img loading="lazy" src="https://bleomedia.com.au/wp-content/uploads/2021/08/bleo___hyber_nation_-_product_video-1440p.00_00_27_17.Still001.jpg" alt="Hyber Nation"/></div><span class="tc">Product Film</span><div class="info"><div class="cat">Lifestyle</div><h3>Hyber Nation</h3></div></div>
-      <div class="pj span6 h-wide reveal" data-cursor><div class="ph"><img loading="lazy" src="https://bleomedia.com.au/wp-content/uploads/2023/08/Proud-Smile-Story-Telling-Video-FINAL.00_00_07_19.Still001.jpg" alt="Proud Smile"/></div><span class="tc">Brand Story</span><div class="info"><div class="cat">Health</div><h3>Proud Smile</h3></div></div>
-    </div>
-    <div class="work-more reveal"><a href="#" class="cta-btn" data-cursor>View the full archive &rarr;</a></div>
-  </div>
-</section>
-
-<!-- APPROACH (white Strategies section) -->
-<section class="pad approach" id="approach">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <div><span class="k">(02) — How we work</span><h2>Strategy first.<br>Always.</h2></div>
-      <p class="lead">Creative without strategy lacks direction. Strategy without creative lacks impact. We bring both together.</p>
-    </div>
-    <div class="steps reveal">
-      <div class="step" data-cursor><span class="n">01</span><h3>Marketing Strategy</h3><p>We understand your business properly first, then build the plan around the result you actually need.</p></div>
-      <div class="step" data-cursor><span class="n">02</span><h3>Brand &amp; Design</h3><p>A cohesive, elevated identity that makes you look like the leader you are.</p></div>
-      <div class="step" data-cursor><span class="n">03</span><h3>Creative Production</h3><p>Captivating film and photography, produced with intent by specialist creatives.</p></div>
-      <div class="step" data-cursor><span class="n">04</span><h3>Marketing Activation</h3><p>Distributed with purpose through paid media that connects with the right audience.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- DIFFERENCE -->
-<section class="pad" id="difference">
-  <div class="wrap">
-    <div class="sec-head reveal"><div><span class="k">(03) — What makes us different</span></div></div>
-    <div class="diff-grid reveal">
-      <div class="big">Specialist marketers and specialist creatives, <span class="g">working as one.</span></div>
-      <div>
-        <p>Most agencies try to do everything with the same people. We don't. Strategy shapes the story. The story is produced with intent. And it's distributed through marketing that connects.</p>
-        <p>The result is work that is more intentional, more impactful, and far more aligned to real business growth.</p>
-        <span class="ai-chip"><span class="dot"></span>AI-forward across strategy, creative &amp; performance</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TRANSFORMATION -->
-<section class="pad" style="padding-top:0">
-  <div class="wrap">
-    <div class="sec-head reveal"><div><span class="k">(04) — The shift</span><h2>From reactive<br>to growth-ready.</h2></div></div>
-    <div class="trans reveal">
-      <div class="tcol before">
-        <div class="tag">Before Bleo</div>
-        <ul>
-          <li><span class="ic">—</span> Disconnected marketing</li>
-          <li><span class="ic">—</span> Generic content</li>
-          <li><span class="ic">—</span> Unclear direction</li>
-          <li><span class="ic">—</span> Reactive decisions</li>
-          <li><span class="ic">—</span> No clear plan</li>
-        </ul>
-      </div>
-      <div class="tcol after">
-        <div class="tag">After Bleo</div>
-        <ul>
-          <li><span class="ic">✦</span> Clear strategy and direction</li>
-          <li><span class="ic">✦</span> A stronger, cohesive brand presence</li>
-          <li><span class="ic">✦</span> High-quality, purposeful creative</li>
-          <li><span class="ic">✦</span> Confident decision-making</li>
-          <li><span class="ic">✦</span> A brand that connects in the market</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FILM -->
-<section class="pad" id="film" style="padding-top:0">
-  <div class="wrap">
-    <div class="sec-head reveal"><div><span class="k">(05) — On the reel</span><h2>Powerful stories,<br>shared properly.</h2></div></div>
-    <div class="film reveal" id="film1" data-yt="m4wbLqxY2oo" data-cursor>
-      <img src="https://i.ytimg.com/vi/m4wbLqxY2oo/maxresdefault.jpg" onerror="this.src='https://bleomedia.com.au/wp-content/uploads/2022/09/Sheraton-Website-Thumbnail.jpg'" alt="Bleo showreel"/>
-      <div class="ov"><div class="pbig"><svg width="30" height="30" viewBox="0 0 16 16"><path d="M3 2l11 6-11 6z"/></svg></div><div class="lbl">Watch the reel</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- TESTIMONIAL -->
-<section class="pad" style="padding-top:0">
-  <div class="wrap reveal">
-    <div class="testi">
-      <div class="stars">★★★★★</div>
-      <p>"Couldn't have asked for a better experience from a production agency. They listened and delivered beyond what we imagined."</p>
-      <div class="who">Caroline — Animal Welfare League</div>
-    </div>
-  </div>
-</section>
-
-<!-- STUDIOS -->
-<section class="pad" id="studios" style="padding-top:0">
-  <div class="wrap">
-    <div class="sec-head reveal"><div><span class="k">(06) — Where we are</span><h2>Three studios.<br>One team.</h2></div></div>
-    <div class="locs reveal">
-      <div class="loc"><div class="c">Gold Coast</div><div class="a">5/2172 Gold Coast Hwy<br>Miami, QLD 4220</div><div class="p">(07) 3497 0689</div></div>
-      <div class="loc"><div class="c">Sydney</div><div class="a">Level 16 &amp; 17, 1 Denison St<br>North Sydney, NSW 2060</div><div class="p">(02) 9127 5611</div></div>
-      <div class="loc"><div class="c">Melbourne</div><div class="a">Level 3/257 Collins St<br>Melbourne, VIC 3000</div><div class="p">(03) 9967 0193</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- CTA -->
-<section class="pad cta" id="contact">
-  <div class="wrap reveal">
-    <span class="k" style="text-align:center">Built with intention. Shared with purpose.</span>
-    <h2><a href="mailto:info@bleocorp.com.au" data-cursor>Let's grow.</a></h2>
-    <p class="sub">Tell us about your brand and where you want it to go. We'll build the strategy and the story to get it there.</p>
-    <div class="cta-row">
-      <a href="mailto:info@bleocorp.com.au" data-cursor>info@bleocorp.com.au</a>
-      <a href="tel:1300174007" data-cursor>1300 174 007</a>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="wrap">
-    <div class="foot-top">
-      <div class="fb">
-        <div class="brand"><svg class="mark" viewBox="0 0 120 90"><use href="#bleomark"/></svg> Bleo</div>
-        <p>A high-end creative growth partner. Strategy, brand, creative production and marketing, working as one. Brisbane · Sydney · Melbourne.</p>
-      </div>
-      <div class="foot-nav">
-        <div class="foot-col"><h5>Explore</h5><a href="#work" data-cursor>Work</a><a href="#approach" data-cursor>Approach</a><a href="#difference" data-cursor>Difference</a><a href="#film" data-cursor>Showreel</a></div>
-        <div class="foot-col"><h5>Services</h5><a href="#" data-cursor>Marketing Strategy</a><a href="#" data-cursor>Brand &amp; Design</a><a href="#" data-cursor>Creative Production</a><a href="#" data-cursor>Activation</a></div>
-        <div class="foot-col"><h5>Contact</h5><a href="mailto:info@bleocorp.com.au" data-cursor>info@bleocorp.com.au</a><a href="tel:1300174007" data-cursor>1300 174 007</a></div>
-      </div>
-    </div>
-    <div class="foot-bot">
-      <span>© 2011–2026 Bleo. Creative growth partner.</span>
-      <div class="socials">
-        <a href="https://www.instagram.com/bleo_creative/" data-cursor>IG</a>
-        <a href="https://www.youtube.com/bleomedia" data-cursor>YT</a>
-        <a href="https://www.linkedin.com/company/bleo-media/" data-cursor>IN</a>
-        <a href="https://www.facebook.com/BleoAus/" data-cursor>FB</a>
-      </div>
-    </div>
-  </div>
-</footer>
-
-<script>
-  addEventListener('load', () => setTimeout(()=>document.getElementById('pre').classList.add('done'), 1100));
-  setTimeout(()=>document.getElementById('pre').classList.add('done'), 2400);
-
-  const cur=document.querySelector('.cur'), dot=document.querySelector('.cur-dot');
-  let cx=innerWidth/2, cy=innerHeight/2, tx=cx, ty=cy;
-  addEventListener('mousemove', e=>{ tx=e.clientX; ty=e.clientY; dot.style.transform=`translate(${tx-2.5}px,${ty-2.5}px)`; });
-  (function loop(){ cx+=(tx-cx)*.18; cy+=(ty-cy)*.18; cur.style.transform=`translate(${cx-18}px,${cy-18}px)`; requestAnimationFrame(loop); })();
-  document.querySelectorAll('[data-cursor]').forEach(el=>{ el.addEventListener('mouseenter',()=>cur.classList.add('grow')); el.addEventListener('mouseleave',()=>cur.classList.remove('grow')); });
-
-  const hdr=document.getElementById('hdr');
-  addEventListener('scroll',()=>hdr.classList.toggle('scrolled',scrollY>50));
-  const burger=document.getElementById('burger'),nav=document.getElementById('navlinks');
-  burger.addEventListener('click',()=>nav.classList.toggle('open'));
-  nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('open')));
-
-  const slides=[...document.querySelectorAll('#heroMedia .slide')]; let si=0;
-  setInterval(()=>{ slides[si].classList.remove('on'); si=(si+1)%slides.length; const c=slides[si]; c.classList.add('on'); const img=c.querySelector('img'); img.style.animation='none'; void img.offsetWidth; img.style.animation=''; }, 4200);
-
-  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
-  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-
-  const film=document.getElementById('film1');
-  film.addEventListener('click',()=>{ const id=film.dataset.yt; film.innerHTML=`<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1" title="Bleo showreel" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>`; });
-</script>
 </body>
 </html>

@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bleo - Stories that move people. Strategies that move markets.</title>
+<meta name="description" content="Bleo is a high-end creative growth partner. We connect strategic marketing with captivating creative production to grow brands ready to look, feel and perform at a higher level." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --stories:#060606;
+    --strategies:#fdfeff;
+    --grey:#c3cad3;
+    --hair:rgba(253,254,255,.12);
+    --hair-soft:rgba(253,254,255,.07);
+    --grade:grayscale(.3) contrast(1.05) brightness(.82);
+    --display:"Recent Grotesk","Anton",sans-serif;
+    --body:"Inter",sans-serif;
+    --ease:cubic-bezier(.16,.84,.36,1);
+    --gut:clamp(20px,5vw,80px);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  body{
+    background:var(--stories);
+    color:var(--strategies);
+    font-family:var(--body);
+    font-weight:400;
+    line-height:1.6;
+    overflow-x:hidden;
+    letter-spacing:.005em;
+  }
+  ::selection{background:var(--strategies);color:var(--stories)}
+  a{color:inherit;text-decoration:none}
+  img{display:block;max-width:100%}
+
+  .display{
+    font-family:var(--display);
+    text-transform:uppercase;
+    line-height:.86;
+    letter-spacing:-.01em;
+    font-weight:400;
+  }
+
+  /* ---------- NAV ---------- */
+  .nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:20px var(--gut);
+    transition:background .5s var(--ease), padding .5s var(--ease), border-color .5s var(--ease);
+    border-bottom:1px solid transparent;
+  }
+  .nav.scrolled{
+    background:rgba(6,6,6,.72);
+    backdrop-filter:blur(18px) saturate(140%);
+    -webkit-backdrop-filter:blur(18px) saturate(140%);
+    padding:14px var(--gut);
+    border-bottom:1px solid var(--hair-soft);
+  }
+  .brand{display:flex;align-items:center;gap:12px;color:var(--strategies)}
+  .brand svg{width:38px;height:auto;flex:none;transition:transform .6s var(--ease)}
+  .brand:hover svg{transform:rotate(-4deg) scale(1.04)}
+  .brand .word{
+    font-family:var(--display);text-transform:uppercase;
+    font-size:26px;letter-spacing:.02em;line-height:1;
+  }
+  .nav-links{display:flex;align-items:center;gap:38px}
+  .nav-links a{
+    font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--grey);position:relative;padding:4px 0;font-weight:500;
+    transition:color .35s var(--ease);
+  }
+  .nav-links a::after{
+    content:"";position:absolute;left:0;bottom:-2px;height:1px;width:0;
+    background:var(--strategies);transition:width .4s var(--ease);
+  }
+  .nav-links a:hover{color:var(--strategies)}
+  .nav-links a:hover::after{width:100%}
+  .nav-cta{
+    display:inline-flex;align-items:center;gap:9px;
+    border:1px solid var(--hair);border-radius:100px;
+    padding:10px 20px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--strategies);font-weight:500;
+    transition:background .35s var(--ease),color .35s var(--ease),border-color .35s var(--ease);
+  }
+  .nav-cta:hover{background:var(--strategies);color:var(--stories);border-color:var(--strategies)}
+  .nav-cta .dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+  .burger{display:none;background:none;border:none;color:var(--strategies);cursor:pointer;flex-direction:column;gap:5px;padding:6px}
+  .burger span{width:24px;height:1.5px;background:currentColor;display:block;transition:transform .4s var(--ease),opacity .3s}
+
+  /* ---------- HERO / FOOTAGE WALL ---------- */
+  .hero{position:relative;height:100svh;min-height:620px;overflow:hidden;background:var(--stories)}
+  .wall{
+    position:absolute;inset:0;
+    display:grid;grid-template-columns:repeat(4,1fr);
+    gap:14px;padding:14px;
+    transform:scale(1.06);
+  }
+  .col{position:relative;overflow:hidden}
+  .track{
+    display:flex;flex-direction:column;gap:14px;
+    will-change:transform;
+  }
+  .track.up{animation:scrollUp 46s linear infinite}
+  .track.down{animation:scrollDown 52s linear infinite}
+  .track.up.slow{animation-duration:58s}
+  .track.down.slow{animation-duration:64s}
+  .hero:hover .track{animation-play-state:paused}
+  @keyframes scrollUp{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+  @keyframes scrollDown{from{transform:translateY(-50%)}to{transform:translateY(0)}}
+
+  .tile{position:relative;border-radius:3px;overflow:hidden;background:#0c0c0c}
+  .tile img{
+    width:100%;height:clamp(220px,30vh,340px);object-fit:cover;
+    filter:var(--grade);
+    transition:transform 1.2s var(--ease),filter 1.2s var(--ease);
+  }
+  .tile::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(6,6,6,0) 40%,rgba(6,6,6,.55) 100%);
+    opacity:0;transition:opacity .6s var(--ease);
+  }
+  .tile:hover img{transform:scale(1.07);filter:grayscale(0) contrast(1.06) brightness(.95)}
+  .tile:hover::after{opacity:1}
+  .tile .cap{
+    position:absolute;left:14px;bottom:12px;z-index:2;
+    opacity:0;transform:translateY(8px);
+    transition:opacity .5s var(--ease),transform .5s var(--ease);
+  }
+  .tile:hover .cap{opacity:1;transform:translateY(0)}
+  .tile .cap b{display:block;font-family:var(--display);text-transform:uppercase;font-size:16px;letter-spacing:.01em;line-height:1}
+  .tile .cap span{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--grey)}
+
+  /* hero overlays */
+  .hero-veil{
+    position:absolute;inset:0;z-index:3;pointer-events:none;
+    background:
+      radial-gradient(120% 90% at 50% 50%, rgba(6,6,6,.18) 0%, rgba(6,6,6,.62) 58%, rgba(6,6,6,.92) 100%),
+      linear-gradient(180deg, rgba(6,6,6,.55) 0%, rgba(6,6,6,0) 22%, rgba(6,6,6,0) 70%, rgba(6,6,6,.85) 100%);
+  }
+  .hero-grain{position:absolute;inset:0;z-index:4;pointer-events:none;opacity:.05;mix-blend-mode:overlay}
+
+  .hero-core{
+    position:absolute;inset:0;z-index:5;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:0 24px;pointer-events:none;
+  }
+  .hero-core > *{pointer-events:auto}
+  .eye{color:var(--strategies);width:78px;height:auto;opacity:0;transform:translateY(18px);filter:drop-shadow(0 6px 30px rgba(0,0,0,.6))}
+  .hero-eyebrow{
+    margin-top:26px;font-size:11.5px;letter-spacing:.34em;text-transform:uppercase;
+    color:var(--grey);opacity:0;transform:translateY(18px);
+  }
+  .hero-line{
+    margin-top:14px;
+    font-size:clamp(56px,11vw,150px);
+    color:var(--strategies);
+  }
+  .hero-line .w{display:inline-block;opacity:0;transform:translateY(110%)}
+  .hero-line .felt{position:relative}
+  .hero-line .felt::after{
+    content:"";position:absolute;left:0;right:0;bottom:.08em;height:.07em;
+    background:var(--strategies);transform:scaleX(0);transform-origin:left;
+    animation:underline 1s var(--ease) 1.5s forwards;
+  }
+  @keyframes underline{to{transform:scaleX(1)}}
+  .hero-sub{
+    margin-top:22px;max-width:560px;font-size:clamp(14px,1.5vw,16.5px);
+    color:rgba(253,254,255,.82);line-height:1.65;
+    opacity:0;transform:translateY(18px);
+  }
+  .hero-actions{margin-top:34px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;justify-content:center;opacity:0;transform:translateY(18px)}
+  .btn{
+    display:inline-flex;align-items:center;gap:11px;
+    background:var(--strategies);color:var(--stories);
+    padding:16px 30px;border-radius:100px;
+    font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;
+    border:1px solid var(--strategies);
+    transition:transform .4s var(--ease),background .4s var(--ease),color .4s var(--ease);
+  }
+  .btn:hover{transform:translateY(-2px)}
+  .btn .arr{transition:transform .4s var(--ease)}
+  .btn:hover .arr{transform:translateX(4px)}
+  .btn.ghost{background:transparent;color:var(--strategies);border-color:var(--hair)}
+  .btn.ghost:hover{background:var(--strategies);color:var(--stories);border-color:var(--strategies)}
+
+  .scroll-cue{
+    position:absolute;left:50%;bottom:26px;transform:translateX(-50%);z-index:5;
+    display:flex;flex-direction:column;align-items:center;gap:9px;
+    font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--grey);
+    opacity:0;animation:fadeCue 1s var(--ease) 2.2s forwards;
+  }
+  .scroll-cue .rail{width:1px;height:46px;background:linear-gradient(180deg,var(--grey),transparent);position:relative;overflow:hidden}
+  .scroll-cue .rail::after{content:"";position:absolute;top:-50%;left:0;width:1px;height:50%;background:var(--strategies);animation:railRun 2.2s var(--ease) infinite}
+  @keyframes railRun{0%{top:-50%}100%{top:100%}}
+  @keyframes fadeCue{to{opacity:1}}
+
+  /* page-load orchestration */
+  .loaded .eye{animation:rise .9s var(--ease) .15s forwards}
+  .loaded .hero-eyebrow{animation:rise .9s var(--ease) .35s forwards}
+  .loaded .hero-line .w{animation:wordRise 1s var(--ease) forwards}
+  .loaded .hero-line .w:nth-child(1){animation-delay:.5s}
+  .loaded .hero-line .w:nth-child(2){animation-delay:.62s}
+  .loaded .hero-line .w:nth-child(3){animation-delay:.74s}
+  .loaded .hero-sub{animation:rise .9s var(--ease) .95s forwards}
+  .loaded .hero-actions{animation:rise .9s var(--ease) 1.15s forwards}
+  @keyframes rise{to{opacity:1;transform:translateY(0)}}
+  @keyframes wordRise{to{opacity:1;transform:translateY(0)}}
+
+  /* wall fade-in on load */
+  .wall{opacity:0;transition:opacity 1.4s var(--ease)}
+  .loaded .wall{opacity:1}
+
+  /* ---------- SECTION SCAFFOLD ---------- */
+  section{position:relative}
+  .pad{padding:clamp(90px,12vh,170px) var(--gut)}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:12px;
+    font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--grey);font-weight:500;
+  }
+  .eyebrow::before{content:"";width:30px;height:1px;background:var(--grey);opacity:.6}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(34px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+  .reveal[data-d="1"]{transition-delay:.08s}
+  .reveal[data-d="2"]{transition-delay:.16s}
+  .reveal[data-d="3"]{transition-delay:.24s}
+  .reveal[data-d="4"]{transition-delay:.32s}
+
+  /* ---------- STATEMENT BAND ---------- */
+  .statement{border-top:1px solid var(--hair-soft)}
+  .statement .tag{
+    font-size:clamp(13px,1.4vw,15px);letter-spacing:.2em;text-transform:uppercase;color:var(--grey);margin-bottom:30px;
+  }
+  .statement h2{
+    font-size:clamp(36px,6.4vw,108px);max-width:18ch;
+  }
+  .statement h2 em{font-style:normal;color:var(--grey)}
+  .statement .essence{
+    margin-top:48px;max-width:640px;margin-left:auto;
+    font-size:clamp(16px,1.7vw,20px);line-height:1.6;color:rgba(253,254,255,.86);
+  }
+  .statement .essence .lead{color:var(--strategies)}
+
+  /* ---------- MARQUEE STRIP ---------- */
+  .strip{border-top:1px solid var(--hair-soft);border-bottom:1px solid var(--hair-soft);padding:30px 0;overflow:hidden}
+  .strip-row{display:flex;gap:64px;white-space:nowrap;width:max-content;animation:march 34s linear infinite}
+  .strip:hover .strip-row{animation-play-state:paused}
+  @keyframes march{to{transform:translateX(-50%)}}
+  .strip-row span{
+    font-family:var(--display);text-transform:uppercase;font-size:clamp(22px,3vw,40px);
+    color:var(--strategies);display:inline-flex;align-items:center;gap:64px;letter-spacing:.01em;
+  }
+  .strip-row span::after{content:"";width:9px;height:9px;border-radius:50%;background:var(--grey)}
+
+  /* ---------- WORK ---------- */
+  .work-head{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;flex-wrap:wrap;margin-bottom:56px}
+  .work-head h2{font-size:clamp(40px,6vw,92px);line-height:.9}
+  .work-head p{max-width:340px;color:var(--grey);font-size:15px}
+  .work-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+  .card{
+    position:relative;overflow:hidden;border-radius:4px;background:#0b0b0b;
+    cursor:pointer;border:1px solid var(--hair-soft);
+  }
+  .card img{
+    width:100%;height:100%;object-fit:cover;filter:var(--grade);
+    transition:transform 1.3s var(--ease),filter 1.3s var(--ease);
+  }
+  .card::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(6,6,6,0) 35%,rgba(6,6,6,.78) 100%);
+    opacity:.85;transition:opacity .6s var(--ease);
+  }
+  .card:hover img{transform:scale(1.06);filter:grayscale(0) contrast(1.06) brightness(.96)}
+  .card:hover::after{opacity:1}
+  .card .meta{position:absolute;left:24px;right:24px;bottom:22px;z-index:2;display:flex;align-items:flex-end;justify-content:space-between;gap:16px}
+  .card .meta .t{font-family:var(--display);text-transform:uppercase;font-size:clamp(20px,2vw,30px);line-height:.95}
+  .card .meta .c{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--grey)}
+  .card .meta .go{
+    flex:none;width:40px;height:40px;border-radius:50%;border:1px solid var(--hair);
+    display:flex;align-items:center;justify-content:center;color:var(--strategies);
+    transform:translateY(6px);opacity:0;transition:transform .5s var(--ease),opacity .5s var(--ease),background .4s,color .4s;
+  }
+  .card:hover .meta .go{transform:none;opacity:1}
+  .card:hover .meta .go:hover{background:var(--strategies);color:var(--stories)}
+  .card .num{position:absolute;top:18px;left:22px;z-index:2;font-size:11px;letter-spacing:.18em;color:var(--grey)}
+  .c-tall{grid-column:span 5;aspect-ratio:4/5}
+  .c-wide{grid-column:span 7;aspect-ratio:16/10}
+  .c-third{grid-column:span 4;aspect-ratio:1/1}
+  .work-foot{margin-top:48px;display:flex;justify-content:center}
+
+  /* ---------- ORDER OF SERVICE ---------- */
+  .order{border-top:1px solid var(--hair-soft)}
+  .order .pillar{
+    max-width:780px;margin:42px 0 64px;
+    font-size:clamp(20px,2.6vw,34px);line-height:1.32;font-weight:300;color:var(--strategies);
+  }
+  .order .pillar b{font-weight:600}
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--hair)}
+  .step{
+    padding:38px 28px 44px;border-right:1px solid var(--hair);position:relative;
+    transition:background .5s var(--ease);
+  }
+  .step:last-child{border-right:none}
+  .step:hover{background:rgba(253,254,255,.03)}
+  .step .n{font-family:var(--display);font-size:clamp(40px,4vw,62px);color:var(--grey);line-height:1;opacity:.5;transition:opacity .5s var(--ease),color .5s var(--ease)}
+  .step:hover .n{opacity:1;color:var(--strategies)}
+  .step h3{font-family:var(--display);text-transform:uppercase;font-size:clamp(18px,1.5vw,22px);margin-top:22px;line-height:1.05}
+  .step p{margin-top:14px;color:var(--grey);font-size:13.5px;line-height:1.6}
+  .step .bar{position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--strategies);transition:width .6s var(--ease)}
+  .step:hover .bar{width:100%}
+
+  /* ---------- DIFFERENT ---------- */
+  .different{border-top:1px solid var(--hair-soft)}
+  .diff-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(40px,7vw,110px);align-items:center}
+  .diff-grid h2{font-size:clamp(36px,5vw,80px);line-height:.92}
+  .diff-grid h2 em{font-style:normal;color:var(--grey)}
+  .diff-list{display:flex;flex-direction:column;gap:0}
+  .diff-item{padding:26px 0;border-bottom:1px solid var(--hair-soft);display:flex;gap:22px;align-items:flex-start}
+  .diff-item:first-child{border-top:1px solid var(--hair-soft)}
+  .diff-item .ic{flex:none;color:var(--strategies);margin-top:2px}
+  .diff-item h4{font-size:17px;font-weight:600;letter-spacing:.01em}
+  .diff-item p{color:var(--grey);font-size:14px;margin-top:6px;line-height:1.6}
+
+  /* ---------- TRANSFORMATION ---------- */
+  .transform{border-top:1px solid var(--hair-soft)}
+  .tf-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:clamp(24px,4vw,60px);align-items:stretch;margin-top:56px}
+  .tf-col{position:relative}
+  .tf-col h3{
+    font-family:var(--display);text-transform:uppercase;font-size:14px;letter-spacing:.16em;
+    color:var(--grey);margin-bottom:26px;display:flex;align-items:center;gap:12px;
+  }
+  .tf-col.after h3{color:var(--strategies)}
+  .tf-col ul{list-style:none;display:flex;flex-direction:column;gap:2px}
+  .tf-col li{
+    padding:18px 22px;border:1px solid var(--hair-soft);border-radius:3px;
+    font-size:15px;display:flex;align-items:center;gap:14px;
+    transition:border-color .4s var(--ease),background .4s var(--ease),transform .4s var(--ease);
+  }
+  .tf-col.before li{color:var(--grey)}
+  .tf-col.before li .mk{color:var(--grey);opacity:.6}
+  .tf-col.after li{color:var(--strategies);background:rgba(253,254,255,.02)}
+  .tf-col.after li:hover{border-color:var(--hair);transform:translateX(4px);background:rgba(253,254,255,.05)}
+  .tf-col.after li .mk{color:var(--strategies)}
+  .tf-arrow{
+    display:flex;align-items:center;justify-content:center;color:var(--grey);
+  }
+  .tf-arrow svg{width:54px;height:auto}
+
+  /* ---------- SHOWREEL ---------- */
+  .reel{border-top:1px solid var(--hair-soft)}
+  .reel-head{text-align:center;margin-bottom:48px}
+  .reel-head h2{font-size:clamp(40px,6vw,96px);line-height:.9}
+  .reel-head p{margin-top:18px;color:var(--grey);max-width:520px;margin-inline:auto;font-size:15.5px}
+  .player{
+    position:relative;width:100%;max-width:1180px;margin:0 auto;aspect-ratio:16/9;
+    border-radius:6px;overflow:hidden;cursor:pointer;background:#000;
+    border:1px solid var(--hair-soft);
+  }
+  .player img{width:100%;height:100%;object-fit:cover;filter:var(--grade);transition:transform 1.3s var(--ease),filter 1.3s var(--ease)}
+  .player:hover img{transform:scale(1.04);filter:grayscale(.1) contrast(1.05) brightness(.9)}
+  .player::after{content:"";position:absolute;inset:0;background:radial-gradient(60% 60% at 50% 50%,rgba(6,6,6,.1),rgba(6,6,6,.55))}
+  .play{
+    position:absolute;inset:0;z-index:3;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;
+  }
+  .play .ring{
+    width:96px;height:96px;border-radius:50%;border:1px solid rgba(253,254,255,.45);
+    display:flex;align-items:center;justify-content:center;color:var(--strategies);
+    background:rgba(6,6,6,.25);backdrop-filter:blur(4px);
+    transition:transform .5s var(--ease),background .5s var(--ease),border-color .5s var(--ease);
+  }
+  .player:hover .play .ring{transform:scale(1.08);background:var(--strategies);color:var(--stories);border-color:var(--strategies)}
+  .play .lbl{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--strategies)}
+  .player iframe{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:5}
+
+  /* ---------- TESTIMONIAL ---------- */
+  .quote{border-top:1px solid var(--hair-soft);text-align:center}
+  .quote .mark{font-family:var(--display);font-size:120px;line-height:.6;color:var(--grey);opacity:.35;height:50px}
+  .quote blockquote{
+    font-size:clamp(24px,3.4vw,46px);line-height:1.34;font-weight:300;max-width:18ch;margin:34px auto 0;
+  }
+  .quote .who{margin-top:34px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--grey)}
+  .quote .who b{color:var(--strategies);font-weight:600}
+
+  /* ---------- CLIENTS ---------- */
+  .clients{border-top:1px solid var(--hair-soft);text-align:center}
+  .clients .eyebrow{justify-content:center;margin-bottom:46px}
+  .logo-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:clamp(20px,3vw,46px);align-items:center;max-width:1100px;margin:0 auto}
+  .logo-grid img{
+    width:100%;max-width:96px;margin:0 auto;height:auto;
+    opacity:.42;filter:grayscale(1) brightness(2);
+    transition:opacity .5s var(--ease),transform .5s var(--ease);
+  }
+  .logo-grid a:hover img{opacity:.95;transform:scale(1.06)}
+
+  /* ---------- STUDIOS ---------- */
+  .studios{border-top:1px solid var(--hair-soft)}
+  .studio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--hair);margin-top:54px}
+  .studio{padding:40px 30px 46px;border-right:1px solid var(--hair);transition:background .5s var(--ease)}
+  .studio:last-child{border-right:none}
+  .studio:hover{background:rgba(253,254,255,.03)}
+  .studio .city{font-family:var(--display);text-transform:uppercase;font-size:clamp(26px,3vw,44px);line-height:.95}
+  .studio .addr{margin-top:18px;color:var(--grey);font-size:14px;line-height:1.7}
+  .studio .tel{margin-top:18px;display:inline-flex;align-items:center;gap:9px;font-size:14px;color:var(--strategies);position:relative;width:fit-content}
+  .studio .tel::after{content:"";position:absolute;left:0;bottom:-2px;height:1px;width:0;background:var(--strategies);transition:width .4s var(--ease)}
+  .studio .tel:hover::after{width:100%}
+
+  /* ---------- CONTACT CTA ---------- */
+  .cta{border-top:1px solid var(--hair-soft);text-align:center;position:relative;overflow:hidden}
+  .cta .glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(60% 80% at 50% 120%,rgba(253,254,255,.08),transparent 70%)}
+  .cta .eyebrow{justify-content:center;margin-bottom:28px}
+  .cta h2{font-size:clamp(46px,9vw,150px);line-height:.86}
+  .cta h2 em{font-style:normal;color:var(--grey)}
+  .cta .row{margin-top:46px;display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap}
+  .cta .mailto{font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--grey);position:relative}
+  .cta .mailto:hover{color:var(--strategies)}
+
+  /* ---------- FOOTER ---------- */
+  footer{border-top:1px solid var(--hair-soft);padding:64px var(--gut) 40px}
+  .foot-top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;align-items:flex-start}
+  .foot-brand{display:flex;flex-direction:column;gap:18px;max-width:320px}
+  .foot-brand .row{display:flex;align-items:center;gap:12px;color:var(--strategies)}
+  .foot-brand .row svg{width:40px;height:auto}
+  .foot-brand .row .word{font-family:var(--display);text-transform:uppercase;font-size:30px;letter-spacing:.02em;line-height:1}
+  .foot-brand p{color:var(--grey);font-size:13.5px;line-height:1.6}
+  .foot-cols{display:flex;gap:clamp(34px,6vw,90px);flex-wrap:wrap}
+  .foot-col h5{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--grey);margin-bottom:18px;font-weight:600}
+  .foot-col a{display:block;font-size:14px;color:rgba(253,254,255,.78);padding:6px 0;transition:color .3s,transform .3s var(--ease)}
+  .foot-col a:hover{color:var(--strategies);transform:translateX(3px)}
+  .foot-bottom{margin-top:56px;padding-top:26px;border-top:1px solid var(--hair-soft);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+  .foot-bottom p{font-size:12px;color:var(--grey);letter-spacing:.04em}
+  .foot-bottom .est{font-size:11px;letter-spacing:.22em;text-transform:uppercase}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media(max-width:1080px){
+    .work-head h2{width:100%}
+    .c-tall,.c-wide{grid-column:span 6}
+    .c-third{grid-column:span 6}
+    .diff-grid{grid-template-columns:1fr;gap:48px}
+    .logo-grid{grid-template-columns:repeat(4,1fr);gap:34px}
+  }
+  @media(max-width:820px){
+    .nav-links{display:none}
+    .nav-links.open{
+      display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;
+      background:rgba(6,6,6,.96);backdrop-filter:blur(18px);padding:24px var(--gut) 32px;gap:18px;align-items:flex-start;
+      border-bottom:1px solid var(--hair-soft);
+    }
+    .nav-links.open .nav-cta{margin-top:8px}
+    .burger{display:flex}
+    .nav .nav-cta.desktop{display:none}
+    .wall{grid-template-columns:repeat(3,1fr)}
+    .steps{grid-template-columns:repeat(2,1fr)}
+    .step:nth-child(2){border-right:none}
+    .step:nth-child(1),.step:nth-child(2){border-bottom:1px solid var(--hair)}
+    .studio-grid{grid-template-columns:1fr}
+    .studio{border-right:none;border-bottom:1px solid var(--hair)}
+    .studio:last-child{border-bottom:none}
+    .tf-grid{grid-template-columns:1fr;gap:14px}
+    .tf-arrow{transform:rotate(90deg);margin:6px 0}
+  }
+  @media(max-width:560px){
+    .wall{grid-template-columns:repeat(2,1fr);transform:scale(1.12)}
+    .tile img{height:clamp(180px,26vh,260px)}
+    .steps{grid-template-columns:1fr}
+    .step{border-right:none;border-bottom:1px solid var(--hair)}
+    .step:last-child{border-bottom:none}
+    .logo-grid{grid-template-columns:repeat(3,1fr)}
+    .hero-line{font-size:clamp(46px,16vw,90px)}
+    .work-foot .btn,.hero-actions .btn{padding:14px 24px}
+  }
+
+  @media(prefers-reduced-motion:reduce){
+    *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+    .track{animation:none!important}
+    .reveal{opacity:1;transform:none}
+    .eye,.hero-eyebrow,.hero-sub,.hero-actions{opacity:1;transform:none}
+    .hero-line .w{opacity:1;transform:none}
+    .wall{opacity:1}
+  }
+</style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <a href="#top" class="brand" aria-label="Bleo home">
+      <svg viewBox="0 0 120 90" aria-hidden="true">
+        <ellipse cx="60" cy="34" rx="54" ry="22" fill="none" stroke="currentColor" stroke-width="7"/>
+        <ellipse cx="60" cy="56" rx="54" ry="22" fill="none" stroke="currentColor" stroke-width="7"/>
+        <ellipse cx="60" cy="45" rx="22" ry="6.5" fill="currentColor"/>
+      </svg>
+      <span class="word">Bleo</span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#work">Work</a>
+      <a href="#approach">Approach</a>
+      <a href="#difference">Difference</a>
+      <a href="#reel">Showreel</a>
+      <a href="#studios">Studios</a>
+      <a href="#contact" class="nav-cta"><span class="dot"></span>Start a project</a>
+    </div>
+    <a href="#contact" class="nav-cta desktop"><span class="dot"></span>Start a project</a>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+
+  <!-- HERO / FOOTAGE WALL -->
+  <header class="hero" id="top">
+    <div class="wall" id="wall" aria-hidden="true"><!-- columns injected --></div>
+    <div class="hero-veil"></div>
+    <svg class="hero-grain" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
+
+    <div class="hero-core">
+      <svg class="eye" viewBox="0 0 120 90" aria-hidden="true">
+        <ellipse cx="60" cy="34" rx="54" ry="22" fill="none" stroke="currentColor" stroke-width="7"/>
+        <ellipse cx="60" cy="56" rx="54" ry="22" fill="none" stroke="currentColor" stroke-width="7"/>
+        <ellipse cx="60" cy="45" rx="22" ry="6.5" fill="currentColor"/>
+      </svg>
+      <div class="hero-eyebrow">Integrated Creative Agency - Est. 2011</div>
+      <h1 class="hero-line display">
+        <span class="w">Not</span> <span class="w">just</span> <span class="w felt">seen.</span>
+      </h1>
+      <p class="hero-sub">A high-end creative growth partner. We connect strategic marketing with captivating creative production to grow brands ready to look, feel and perform at a higher level.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn">Start a project <span class="arr">&rarr;</span></a>
+        <a href="#reel" class="btn ghost">Watch the reel</a>
+      </div>
+    </div>
+
+    <a href="#statement" class="scroll-cue" aria-label="Scroll">
+      <span>Scroll</span>
+      <span class="rail"></span>
+    </a>
+  </header>
+
+  <!-- STATEMENT BAND -->
+  <section class="statement pad" id="statement">
+    <div class="reveal">
+      <p class="tag">Stories that move people. Strategies that move markets.</p>
+    </div>
+    <h2 class="display reveal" data-d="1">Not just seen. <em>Felt.</em></h2>
+    <div class="essence reveal" data-d="2">
+      <p class="lead">Great brands don't grow from more content. They grow from better strategy, stronger creative, and stories shared with purpose.</p>
+      <p style="margin-top:18px;color:var(--grey)">Built with intention. Shared with purpose. We bring strategy and creative together so your brand connects, and keeps connecting.</p>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="strip" aria-hidden="true">
+    <div class="strip-row">
+      <span>Marketing Strategy</span><span>Brand &amp; Design</span><span>Creative Production</span><span>Marketing Activation</span>
+      <span>Marketing Strategy</span><span>Brand &amp; Design</span><span>Creative Production</span><span>Marketing Activation</span>
+    </div>
+  </div>
+
+  <!-- WORK -->
+  <section class="work pad" id="work">
+    <div class="work-head">
+      <h2 class="display reveal">Selected<br/>Work</h2>
+      <p class="reveal" data-d="1">Powerful stories, shared properly. A selection of brands we have helped look, feel and perform at a higher level.</p>
+    </div>
+    <div class="work-grid">
+      <article class="card c-tall reveal">
+        <span class="num">01</span>
+        <img src="https://bleomedia.com.au/wp-content/uploads/2023/08/bleo___dreamworld_-_event_showcase_video-1440p.00_00_00_00.Still0012.jpg" alt="Dreamworld experience film" loading="lazy"/>
+        <div class="meta"><div><div class="t">Dreamworld</div><div class="c">Experience &middot; Tourism</div></div><span class="go">&rarr;</span></div>
+      </article>
+      <article class="card c-wide reveal" data-d="1">
+        <span class="num">02</span>
+        <img src="https://bleomedia.com.au/wp-content/uploads/2021/02/bleo___multiplex_the_jewel_-_grand_showcase_video-1440p.00_00_18_04.Still002.jpg" alt="Multiplex Jewel brand film" loading="lazy"/>
+        <div class="meta"><div><div class="t">Multiplex Jewel</div><div class="c">Brand Film</div></div><span class="go">&rarr;</span></div>
+      </article>
+      <article class="card c-third reveal">
+        <span class="num">03</span>
+        <img src="https://bleomedia.com.au/wp-content/uploads/2022/09/Intercontinental-Website-Thumbnail.jpg" alt="InterContinental commercial" loading="lazy"/>
+        <div class="meta"><div><div class="t">InterContinental</div><div class="c">Commercial</div></div><span class="go">&rarr;</span></div>
+      </article>
+      <article class="card c-third reveal" data-d="1">
+        <span class="num">04</span>
+        <img src="https://bleomedia.com.au/wp-content/uploads/2023/08/bleo___pembroke_-_showcase_video-1440p.00_00_02_16.Still001.jpg" alt="Pembroke brand story" loading="lazy"/>
+        <div class="meta"><div><div class="t">Pembroke</div><div class="c">Brand Story</div></div><span class="go">&rarr;</span></div>
+      </article>
+      <article class="card c-third reveal" data-d="2">
+        <span class="num">05</span>
+        <img src="https://bleomedia.com.au/wp-content/uploads/2023/01/YOT-Club-Website-Thumbnail.jpg" alt="YOT Club hospitality film" loading="lazy"/>
+        <div class="meta"><div><div class="t">YOT Club</div><div class="c">Hospitality</div></div><span class="go">&rarr;</span></div>
+      </article>
+      <article class="card c-wide reveal">
+        <span class="num">06</span>
+        <img src="https://bleomedia.com.au/wp-content/uploads/2022/09/Sheraton-Website-Thumbnail.jpg" alt="Sheraton Grand Mirage resort campaign" loading="lazy"/>
+        <div class="meta"><div><div class="t">Sheraton Grand Mirage</div><div class="c">Resort Campaign</div></div><span class="go">&rarr;</span></div>
+      </article>
+      <article class="card c-tall reveal" data-d="1">
+        <span class="num">07</span>
+        <img src="https://bleomedia.com.au/wp-content/uploads/2023/07/Bellevue-Lifestyle-Video-FINAL.00_00_05_01.Still001.jpg" alt="Bellevue lifestyle film" loading="lazy"/>
+        <div class="meta"><div><div class="t">Bellevue</div><div class="c">Lifestyle</div></div><span class="go">&rarr;</span></div>
+      </article>
+    </div>
+    <div class="work-foot reveal">
+      <a href="#contact" class="btn ghost">Start your story <span class="arr">&rarr;</span></a>
+    </div>
+  </section>
+
+  <!-- ORDER OF SERVICE -->
+  <section class="order pad" id="approach">
+    <span class="eyebrow reveal">The order of service</span>
+    <p class="pillar reveal" data-d="1">Creative without strategy lacks direction. Strategy without creative lacks impact. <b>We bring both together,</b> and we start with strategy.</p>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="n">01</div>
+        <h3>Marketing Strategy</h3>
+        <p>Clear direction first. We define the audience, the message and the plan before a single frame is shot.</p>
+        <span class="bar"></span>
+      </div>
+      <div class="step reveal" data-d="1">
+        <div class="n">02</div>
+        <h3>Brand &amp; Design</h3>
+        <p>A stronger, cohesive identity. The look and feel that lets your brand stand apart and stay memorable.</p>
+        <span class="bar"></span>
+      </div>
+      <div class="step reveal" data-d="2">
+        <div class="n">03</div>
+        <h3>Creative Production</h3>
+        <p>High-quality, purposeful creative. Film and content crafted to be felt, not just seen.</p>
+        <span class="bar"></span>
+      </div>
+      <div class="step reveal" data-d="3">
+        <div class="n">04</div>
+        <h3>Marketing Activation</h3>
+        <p>Stories shared properly. We put the work in front of the right people, at the right moment.</p>
+        <span class="bar"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIFFERENCE -->
+  <section class="different pad" id="difference">
+    <div class="diff-grid">
+      <div class="reveal">
+        <span class="eyebrow" style="margin-bottom:24px;display:inline-flex">What makes us different</span>
+        <h2 class="display">Specialist marketers and specialist creatives, <em>working as one.</em></h2>
+      </div>
+      <div class="diff-list reveal" data-d="1">
+        <div class="diff-item">
+          <span class="ic">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          </span>
+          <div><h4>Strategy first, always</h4><p>We never lead with content for content's sake. Direction comes before production.</p></div>
+        </div>
+        <div class="diff-item">
+          <span class="ic">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg>
+          </span>
+          <div><h4>Two disciplines, one team</h4><p>Marketers and creatives under one roof, so nothing gets lost between strategy and screen.</p></div>
+        </div>
+        <div class="diff-item">
+          <span class="ic">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M9 9l3 2-3 2"/></svg>
+          </span>
+          <div><h4>AI-forward by design</h4><p>We work AI-forward across strategy, creative and performance, to move faster and sharper without losing the human touch.</p></div>
+        </div>
+        <div class="diff-item">
+          <span class="ic">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 17l6-6 4 4 7-8"/><path d="M21 7v5h-5"/></svg>
+          </span>
+          <div><h4>Built to transform</h4><p>Elevated, intentional, distinct. Work designed to be timeless and to perform at a higher level.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRANSFORMATION -->
+  <section class="transform pad">
+    <span class="eyebrow reveal">The transformation</span>
+    <h2 class="display reveal" data-d="1" style="font-size:clamp(34px,5vw,72px);margin-top:18px;max-width:14ch">From disconnected to <em style="font-style:normal;color:var(--grey)">unmistakable.</em></h2>
+    <div class="tf-grid">
+      <div class="tf-col before reveal" data-d="1">
+        <h3>Before</h3>
+        <ul>
+          <li><span class="mk">&times;</span>Disconnected marketing</li>
+          <li><span class="mk">&times;</span>Generic content</li>
+          <li><span class="mk">&times;</span>Unclear direction</li>
+          <li><span class="mk">&times;</span>Reactive decisions</li>
+          <li><span class="mk">&times;</span>No clear plan</li>
+        </ul>
+      </div>
+      <div class="tf-arrow reveal" data-d="2">
+        <svg viewBox="0 0 60 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 12h54M44 4l12 8-12 8"/></svg>
+      </div>
+      <div class="tf-col after reveal" data-d="3">
+        <h3>After</h3>
+        <ul>
+          <li><span class="mk">&rarr;</span>Clear strategy and direction</li>
+          <li><span class="mk">&rarr;</span>A stronger, cohesive brand</li>
+          <li><span class="mk">&rarr;</span>High-quality, purposeful creative</li>
+          <li><span class="mk">&rarr;</span>Confident decisions</li>
+          <li><span class="mk">&rarr;</span>A brand that connects</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHOWREEL -->
+  <section class="reel pad" id="reel">
+    <div class="reel-head">
+      <h2 class="display reveal">The Showreel</h2>
+      <p class="reveal" data-d="1">A glimpse of the brands, the films and the moments we have helped make magnetic.</p>
+    </div>
+    <div class="player reveal" data-d="1" id="player" role="button" tabindex="0" aria-label="Play the Bleo showreel">
+      <img src="https://i.ytimg.com/vi/m4wbLqxY2oo/maxresdefault.jpg" alt="Bleo showreel poster" loading="lazy"/>
+      <div class="play">
+        <span class="ring"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        <span class="lbl">Play Showreel</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIAL -->
+  <section class="quote pad">
+    <div class="reveal">
+      <div class="mark">&ldquo;</div>
+      <blockquote>Couldn't have asked for a better experience from a production agency. They listened and delivered beyond what we imagined.</blockquote>
+      <div class="who"><b>Caroline</b> &middot; Animal Welfare League</div>
+    </div>
+  </section>
+
+  <!-- CLIENTS -->
+  <section class="clients pad">
+    <span class="eyebrow reveal">Trusted by brands that lead</span>
+    <div class="logo-grid reveal" data-d="1">
+      <a href="#" aria-label="BMW"><img src="https://bleomedia.com.au/wp-content/uploads/2025/06/BMW-150x150.png" alt="BMW" loading="lazy"/></a>
+      <a href="#" aria-label="Porsche"><img src="https://bleomedia.com.au/wp-content/uploads/2025/06/Porsche-1-150x150.png" alt="Porsche" loading="lazy"/></a>
+      <a href="#" aria-label="L'Oreal"><img src="https://bleomedia.com.au/wp-content/uploads/2025/06/LOreal-150x150.png" alt="L'Oreal" loading="lazy"/></a>
+      <a href="#" aria-label="Hilton"><img src="https://bleomedia.com.au/wp-content/uploads/2025/06/Hilton-1-150x150.png" alt="Hilton" loading="lazy"/></a>
+      <a href="#" aria-label="InterContinental"><img src="https://bleomedia.com.au/wp-content/uploads/2025/06/Intercontinental-150x150.png" alt="InterContinental" loading="lazy"/></a>
+      <a href="#" aria-label="Sheraton Grand Mirage"><img src="https://bleomedia.com.au/wp-content/uploads/2025/06/Sheraton-Grand-Mirage-1-150x150.png" alt="Sheraton Grand Mirage" loading="lazy"/></a>
+      <a href="#" aria-label="The Langham"><img src="https://bleomedia.com.au/wp-content/uploads/2025/06/The-Langham-1-150x150.png" alt="The Langham" loading="lazy"/></a>
+      <a href="#" aria-label="Multiplex"><img src="https://bleomedia.com.au/wp-content/uploads/2025/06/Multiplex-1-150x150.png" alt="Multiplex" loading="lazy"/></a>
+      <a href="#" aria-label="John Holland"><img src="https://bleomedia.com.au/wp-content/uploads/2025/06/John-Holland-1-150x150.png" alt="John Holland" loading="lazy"/></a>
+      <a href="#" aria-label="CAT"><img src="https://bleomedia.com.au/wp-content/uploads/2025/06/CAT-1-150x150.png" alt="CAT" loading="lazy"/></a>
+      <a href="#" aria-label="NRL"><img src="https://bleomedia.com.au/wp-content/uploads/2025/06/NRL-150x150.png" alt="NRL" loading="lazy"/></a>
+      <a href="#" aria-label="Dorsett"><img src="https://bleomedia.com.au/wp-content/uploads/2025/06/Dorsett-1-150x150.png" alt="Dorsett" loading="lazy"/></a>
+    </div>
+  </section>
+
+  <!-- STUDIOS -->
+  <section class="studios pad" id="studios">
+    <div class="work-head" style="margin-bottom:0">
+      <h2 class="display reveal">Three<br/>Studios</h2>
+      <p class="reveal" data-d="1">Brisbane born, working across Australia. Gold Coast, Sydney and Melbourne.</p>
+    </div>
+    <div class="studio-grid">
+      <div class="studio reveal">
+        <div class="city">Gold Coast</div>
+        <div class="addr">5/2172 Gold Coast Hwy<br/>Miami QLD 4220</div>
+        <a class="tel" href="tel:0734970689">&#9742; (07) 3497 0689</a>
+      </div>
+      <div class="studio reveal" data-d="1">
+        <div class="city">Sydney</div>
+        <div class="addr">Level 16 and 17, 1 Denison St<br/>North Sydney NSW 2060</div>
+        <a class="tel" href="tel:0291275611">&#9742; (02) 9127 5611</a>
+      </div>
+      <div class="studio reveal" data-d="2">
+        <div class="city">Melbourne</div>
+        <div class="addr">Level 3/257 Collins St<br/>Melbourne VIC 3000</div>
+        <a class="tel" href="tel:0399670193">&#9742; (03) 9967 0193</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT CTA -->
+  <section class="cta pad" id="contact">
+    <div class="glow"></div>
+    <span class="eyebrow reveal">Let's begin</span>
+    <h2 class="display reveal" data-d="1">Make it <em>felt.</em></h2>
+    <div class="row reveal" data-d="2">
+      <a href="mailto:info@bleocorp.com.au" class="btn">Start a project <span class="arr">&rarr;</span></a>
+      <a href="tel:1300174007" class="btn ghost">1300 174 007</a>
+    </div>
+    <div class="row" style="margin-top:24px">
+      <a class="mailto reveal" data-d="3" href="mailto:info@bleocorp.com.au">info@bleocorp.com.au</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="row">
+          <svg viewBox="0 0 120 90" aria-hidden="true">
+            <ellipse cx="60" cy="34" rx="54" ry="22" fill="none" stroke="currentColor" stroke-width="7"/>
+            <ellipse cx="60" cy="56" rx="54" ry="22" fill="none" stroke="currentColor" stroke-width="7"/>
+            <ellipse cx="60" cy="45" rx="22" ry="6.5" fill="currentColor"/>
+          </svg>
+          <span class="word">Bleo</span>
+        </div>
+        <p>A high-end creative growth partner. Stories that move people. Strategies that move markets.</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h5>Explore</h5>
+          <a href="#work">Work</a>
+          <a href="#approach">Approach</a>
+          <a href="#difference">Difference</a>
+          <a href="#reel">Showreel</a>
+          <a href="#studios">Studios</a>
+        </div>
+        <div class="foot-col">
+          <h5>Connect</h5>
+          <a href="https://instagram.com/bleo_creative" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://youtube.com/bleomedia" target="_blank" rel="noopener">YouTube</a>
+          <a href="https://linkedin.com/company/bleo-media" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://facebook.com/BleoAus" target="_blank" rel="noopener">Facebook</a>
+        </div>
+        <div class="foot-col">
+          <h5>Contact</h5>
+          <a href="mailto:info@bleocorp.com.au">info@bleocorp.com.au</a>
+          <a href="tel:1300174007">1300 174 007</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>&copy; <span id="yr"></span> Bleo. Built with intention. Shared with purpose.</p>
+      <p class="est">Integrated Creative Agency - Est. 2011</p>
+    </div>
+  </footer>
+
+<script>
+(function(){
+  "use strict";
+
+  // ---- Footage wall (4 columns, alternating directions, seamless loop) ----
+  var stills = [
+    ["https://bleomedia.com.au/wp-content/uploads/2023/08/bleo___dreamworld_-_event_showcase_video-1440p.00_00_00_00.Still0012.jpg","Dreamworld","Experience, Tourism"],
+    ["https://bleomedia.com.au/wp-content/uploads/2023/08/bleo___pembroke_-_showcase_video-1440p.00_00_02_16.Still001.jpg","Pembroke","Brand Story"],
+    ["https://bleomedia.com.au/wp-content/uploads/2021/08/bleo___hyber_nation_-_product_video-1440p.00_00_27_17.Still001.jpg","Hyber Nation","Product Film"],
+    ["https://bleomedia.com.au/wp-content/uploads/2023/07/Bellevue-Lifestyle-Video-FINAL.00_00_05_01.Still001.jpg","Bellevue","Lifestyle"],
+    ["https://bleomedia.com.au/wp-content/uploads/2022/09/Intercontinental-Website-Thumbnail.jpg","InterContinental","Commercial"],
+    ["https://bleomedia.com.au/wp-content/uploads/2023/01/YOT-Club-Website-Thumbnail.jpg","YOT Club","Hospitality"],
+    ["https://bleomedia.com.au/wp-content/uploads/2023/08/Proud-Smile-Story-Telling-Video-FINAL.00_00_07_19.Still001.jpg","Proud Smile","Brand Story, Health"],
+    ["https://bleomedia.com.au/wp-content/uploads/2024/12/Gennaru-Thumbnail.jpg","Gennari Group","Brand Story"],
+    ["https://bleomedia.com.au/wp-content/uploads/2024/10/Vanuatu-Rally-Thumbnail-1.jpg","Vanuatu Rally","Adventure"],
+    ["https://bleomedia.com.au/wp-content/uploads/2021/02/bleo___multiplex_the_jewel_-_grand_showcase_video-1440p.00_00_18_04.Still002.jpg","Multiplex Jewel","Brand Film"],
+    ["https://bleomedia.com.au/wp-content/uploads/2022/09/Sheraton-Website-Thumbnail.jpg","Sheraton Grand Mirage","Resort Campaign"]
+  ];
+
+  // distribute stills across 4 columns
+  var columns = [[],[],[],[]];
+  for(var i=0;i<stills.length;i++){ columns[i%4].push(stills[i]); }
+  // top up shorter columns so each has at least 3 tiles, varied
+  for(var c=0;c<4;c++){
+    var idx=0;
+    while(columns[c].length<3){ columns[c].push(stills[(c*3+idx)%stills.length]); idx++; }
+  }
+
+  function tileHTML(s){
+    return '<div class="tile"><img src="'+s[0]+'" alt="'+s[1]+'" loading="eager"/>'+
+           '<div class="cap"><b>'+s[1]+'</b><span>'+s[2]+'</span></div></div>';
+  }
+
+  var wall = document.getElementById("wall");
+  if(wall){
+    var dirs = ["up","down","up","down"];
+    var speeds = ["","slow","slow",""];
+    var html = "";
+    for(var col=0; col<4; col++){
+      var set = columns[col];
+      var inner = set.map(tileHTML).join("");
+      // duplicate the set for a seamless 50% loop
+      html += '<div class="col"><div class="track '+dirs[col]+' '+speeds[col]+'">'+inner+inner+'</div></div>';
+    }
+    wall.innerHTML = html;
+  }
+
+  // ---- Orchestrated page load ----
+  window.addEventListener("load", function(){
+    document.body.classList.add("loaded");
+  });
+  // fallback in case load is slow / cached
+  setTimeout(function(){ document.body.classList.add("loaded"); }, 1200);
+
+  // ---- Nav scrolled state ----
+  var nav = document.getElementById("nav");
+  function onScroll(){
+    if(window.scrollY > 40){ nav.classList.add("scrolled"); }
+    else{ nav.classList.remove("scrolled"); }
+  }
+  window.addEventListener("scroll", onScroll, {passive:true});
+  onScroll();
+
+  // ---- Mobile menu ----
+  var burger = document.getElementById("burger");
+  var navLinks = document.getElementById("navLinks");
+  if(burger){
+    burger.addEventListener("click", function(){
+      navLinks.classList.toggle("open");
+    });
+    navLinks.querySelectorAll("a").forEach(function(a){
+      a.addEventListener("click", function(){ navLinks.classList.remove("open"); });
+    });
+  }
+
+  // ---- Scroll reveal ----
+  var reveals = document.querySelectorAll(".reveal");
+  if("IntersectionObserver" in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); }
+      });
+    }, {threshold:0.12, rootMargin:"0px 0px -8% 0px"});
+    reveals.forEach(function(el){ io.observe(el); });
+  } else {
+    reveals.forEach(function(el){ el.classList.add("in"); });
+  }
+
+  // ---- Showreel click-to-play ----
+  var player = document.getElementById("player");
+  function playReel(){
+    if(player.dataset.playing) return;
+    player.dataset.playing = "1";
+    var iframe = document.createElement("iframe");
+    iframe.setAttribute("src","https://www.youtube.com/embed/m4wbLqxY2oo?autoplay=1&rel=0&modestbranding=1");
+    iframe.setAttribute("title","Bleo Showreel");
+    iframe.setAttribute("allow","autoplay; encrypted-media; picture-in-picture");
+    iframe.setAttribute("allowfullscreen","");
+    player.appendChild(iframe);
+  }
+  if(player){
+    player.addEventListener("click", playReel);
+    player.addEventListener("keydown", function(e){
+      if(e.key === "Enter" || e.key === " "){ e.preventDefault(); playReel(); }
+    });
+  }
+
+  // ---- Year ----
+  var yr = document.getElementById("yr");
+  if(yr){ yr.textContent = new Date().getFullYear(); }
+})();
+</script>
+</body>
+</html>
